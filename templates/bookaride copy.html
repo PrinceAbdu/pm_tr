@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transfer Reservation Form</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+      }
+
+      body {
+        background-color: #f5f5f5;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1000px;
+        margin: 0 auto;
+        background: white;
+        padding: 32px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 32px;
+      }
+
+      .title {
+        font-size: 24px;
+        font-weight: bold;
+      }
+
+      .button-group {
+        display: flex;
+        gap: 8px;
+      }
+
+      .btn {
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border: none;
+        font-size: 14px;
+      }
+
+      .btn-primary {
+        background-color: black;
+        color: white;
+      }
+
+      .btn-secondary {
+        background-color: white;
+        border: 1px solid #ddd;
+      }
+
+      .date-time-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-bottom: 24px;
+      }
+
+      .input-group {
+        position: relative;
+      }
+
+      input[type="date"],
+      input[type="time"] {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+        cursor: pointer;
+      }
+
+      .input-group .icon {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        pointer-events: none;
+        color: #666;
+      }
+
+      .location-section {
+        background-color: #f9f9f9;
+        padding: 16px;
+        border-radius: 8px;
+        margin-bottom: 16px;
+      }
+
+      .location-type {
+        margin-bottom: 12px;
+      }
+
+      .location-type span {
+        color: #666;
+        font-size: 14px;
+      }
+
+      .tab-group {
+        display: flex;
+        gap: 8px;
+        margin-top: 4px;
+      }
+
+      .search-container {
+        position: relative;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 12px 40px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+
+      .search-icon {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+
+      .edit-icon {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+
+      .add-stop {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: black;
+        background: none;
+        border: none;
+        cursor: pointer;
+        margin-bottom: 24px;
+        font-size: 14px;
+      }
+
+      .counter-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+      }
+
+      .counter-group {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .counter-label {
+        font-size: 14px;
+        color: #666;
+      }
+
+      .counter {
+        display: flex;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+
+      .counter button {
+        padding: 8px 16px;
+        border: none;
+        background: none;
+        cursor: pointer;
+      }
+
+      .counter input {
+        flex: 1;
+        text-align: center;
+        border: none;
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+      }
+
+      .footer {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 32px;
+      }
+      .pac-container {
+        z-index: 1051 !important;
+      }
+
+      .distance-info {
+        margin-top: 16px;
+        padding: 12px;
+        background-color: #f0f0f0;
+        border-radius: 4px;
+        font-size: 14px;
+        color: #333;
+      }
+      /* Hide default date and time picker icons */
+      input[type="date"]::-webkit-calendar-picker-indicator,
+      input[type="time"]::-webkit-calendar-picker-indicator {
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        cursor: pointer;
+      }
+      .container-wrapper {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+        max-width: 2000px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      #map-container {
+        position: sticky;
+        top: 20px;
+        height: calc(100vh - 40px);
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      #map {
+        width: 100%;
+        height: 100%;
+      }
+
+      .marker-label {
+        background: #000;
+        color: #fff;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    {% include 'header.html' with page_title="Custom Page Title" %}
+
+    <div class="container-wrapper">
+      <div class="container">
+        <div class="header">
+          <h1 class="title">WHERE & WHEN</h1>
+          <div class="button-group">
+            <button class="btn btn-primary">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+              TRANSFER
+            </button>
+            <button class="btn btn-secondary">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M12 6v6l4 2"></path>
+              </svg>
+              HOURLY
+            </button>
+          </div>
+        </div>
+
+        <div class="date-time-container">
+          <div class="input-group">
+            <input type="date" id="pickup-date" class="input-field" />
+            <span class="icon">📅</span>
+          </div>
+          <div class="input-group">
+            <input type="time" id="pickup-time" class="input-field" />
+            <svg
+              class="icon"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M12 6v6l4 2"></path>
+            </svg>
+          </div>
+        </div>
+
+        <div class="location-section">
+          <div class="location-type">
+            <span>Location Type:</span>
+            <div class="tab-group">
+              <button class="btn btn-primary">Search</button>
+            </div>
+          </div>
+          <div class="search-container">
+            <svg
+              class="search-icon"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input
+              type="text"
+              id="pickup-location"
+              class="search-input"
+              placeholder="Enter pickup location"
+            />
+          </div>
+        </div>
+
+        <div class="location-section">
+          <div class="location-type">
+            <span>Location Type:</span>
+            <div class="tab-group">
+              <button class="btn btn-primary">Search</button>
+            </div>
+          </div>
+          <div class="search-container">
+            <svg
+              class="search-icon"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input
+              type="text"
+              id="dropoff-location"
+              class="search-input"
+              placeholder="Enter dropoff location"
+            />
+          </div>
+          <button>confirm</button>
+        </div>
+
+        <div id="distance-info" class="distance-info" style="display: none">
+          Estimated distance: <span id="distance-value">calculating...</span>
+        </div>
+
+        <button class="add-stop">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          ADD STOP
+        </button>
+
+        <div class="counter-container">
+          <div class="counter-group">
+            <span class="counter-label">Travellers:</span>
+            <div class="counter">
+              <button onclick="updateCounter('travellers', -1)">-</button>
+              <input type="text" id="travellers" value="1" readonly />
+              <button onclick="updateCounter('travellers', 1)">+</button>
+            </div>
+          </div>
+          <div class="counter-group">
+            <span class="counter-label">Kids:</span>
+            <div class="counter">
+              <button onclick="updateCounter('kids', -1)">-</button>
+              <input type="text" id="kids" value="0" readonly />
+              <button onclick="updateCounter('kids', 1)">+</button>
+            </div>
+          </div>
+          <div class="counter-group">
+            <span class="counter-label">Bags:</span>
+            <div class="counter">
+              <button onclick="updateCounter('bags', -1)">-</button>
+              <input type="text" id="bags" value="0" readonly />
+              <button onclick="updateCounter('bags', 1)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer">
+          <button class="btn btn-secondary">Cancel</button>
+          <button class="btn btn-primary" onclick="">Continue</button>
+        </div>
+      </div>
+      <div id="map-container">
+        <div id="map"></div>
+      </div>
+    </div>
+
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDg72jcuTbOPMp5ElU5BEQN4UecokfSgsI&libraries=places&callback=initAutocomplete"
+      async
+      defer
+    ></script>
+    <script>
+      let map;
+      let directionsService;
+      let directionsRenderer;
+      let markers = [];
+      let isMapInitialized = false;
+
+      function initializeMap() {
+        if (!isMapInitialized) {
+          console.log("Initializing map...");
+
+          // Create map
+          map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 12,
+            center: { lat: 20.5937, lng: 78.9629 },
+            mapTypeControl: true,
+            streetViewControl: true,
+            zoomControl: true,
+            fullscreenControl: true,
+          });
+
+          // Initialize directions services
+          directionsService = new google.maps.DirectionsService();
+          directionsRenderer = new google.maps.DirectionsRenderer({
+            map: map,
+            suppressMarkers: true,
+            polylineOptions: {
+              strokeColor: "#2196F3",
+              strokeWeight: 5,
+            },
+          });
+
+          isMapInitialized = true;
+          console.log("Map initialized successfully");
+        }
+      }
+
+      function showLocationOnMap(inputId) {
+        console.log("Showing location for:", inputId);
+
+        // Initialize map if not already done
+        if (!isMapInitialized) {
+          initializeMap();
+        }
+
+        const input = document.getElementById(inputId);
+        alert(input.value);
+        if (!input.placeLat || !input.placeLng) {
+          alert("Please select a location from the dropdown first");
+          return;
+        }
+
+        // Clear existing markers
+        markers.forEach((m) => m.marker.setMap(null));
+        markers = [];
+
+        // Create marker for the selected location
+        const position = { lat: input.placeLat, lng: input.placeLng };
+        const label = inputId === "pickup-location" ? "P" : "D";
+        createCustomMarker(position, label);
+
+        // Center map on the location
+        map.setCenter(position);
+        map.setZoom(15);
+
+        // Update route if both locations are selected
+        updateRoute();
+      }
+
+      // Modified createCustomMarker function
+      function createCustomMarker(position, label) {
+        // Remove existing marker with same label
+        markers = markers.filter((marker) => {
+          if (marker.label === label) {
+            marker.marker.setMap(null);
+            return false;
+          }
+          return true;
+        });
+
+        const marker = new google.maps.Marker({
+          position: position,
+          map: map,
+          label: {
+            text: label,
+            color: "#FFFFFF",
+            fontSize: "14px",
+            fontWeight: "bold",
+          },
+          icon: {
+            path: google.maps.SymbolPath.CIRCLE,
+            scale: 12,
+            fillColor: "#000000",
+            fillOpacity: 1,
+            strokeWeight: 0,
+          },
+        });
+
+        markers.push({ marker, label });
+        return marker;
+      }
+
+      // Modified initializeAutocomplete function
+      function initializeAutocomplete() {
+        const pickupInput = document.getElementById("pickup-location");
+        const dropoffInput = document.getElementById("dropoff-location");
+
+        if (pickupInput) {
+          const pickupAutocomplete = new google.maps.places.Autocomplete(
+            pickupInput
+          );
+          pickupAutocomplete.addListener("place_changed", function () {
+            const place = pickupAutocomplete.getPlace();
+            if (place.geometry) {
+              pickupInput.placeLat = place.geometry.location.lat();
+              pickupInput.placeLng = place.geometry.location.lng();
+            }
+          });
+        }
+
+        if (dropoffInput) {
+          const dropoffAutocomplete = new google.maps.places.Autocomplete(
+            dropoffInput
+          );
+          dropoffAutocomplete.addListener("place_changed", function () {
+            const place = dropoffAutocomplete.getPlace();
+            if (place.geometry) {
+              dropoffInput.placeLat = place.geometry.location.lat();
+              dropoffInput.placeLng = place.geometry.location.lng();
+            }
+          });
+        }
+      }
+
+      // Initialize autocomplete when page loads
+      document.addEventListener("DOMContentLoaded", function () {
+        console.log("Initializing autocomplete...");
+        initializeAutocomplete();
+      });
+      function updateRoute() {
+        // Get all waypoints
+        const waypoints = [];
+        let origin = null;
+        let destination = null;
+
+        // Clear existing markers
+        markers.forEach((m) => m.marker.setMap(null));
+        markers = [];
+
+        // Get pickup location
+        const pickupInput = document.getElementById("pickup-location");
+        if (pickupInput && pickupInput.placeLat && pickupInput.placeLng) {
+          origin = { lat: pickupInput.placeLat, lng: pickupInput.placeLng };
+          createCustomMarker(origin, "P");
+        }
+
+        // Get all stops
+        for (let i = 0; i < stopCounter; i++) {
+          const stopInput = document.getElementById(`stop-location-${i}`);
+          if (stopInput && stopInput.placeLat && stopInput.placeLng) {
+            waypoints.push({
+              location: { lat: stopInput.placeLat, lng: stopInput.placeLng },
+              stopover: true,
+            });
+            createCustomMarker(
+              { lat: stopInput.placeLat, lng: stopInput.placeLng },
+              `S${i + 1}`
+            );
+          }
+        }
+
+        // Get dropoff location
+        const dropoffInput = document.getElementById("dropoff-location");
+        if (dropoffInput && dropoffInput.placeLat && dropoffInput.placeLng) {
+          destination = {
+            lat: dropoffInput.placeLat,
+            lng: dropoffInput.placeLng,
+          };
+          createCustomMarker(destination, "D");
+        }
+
+        // If we have both origin and destination, calculate route
+        if (origin && destination) {
+          const request = {
+            origin: origin,
+            destination: destination,
+            waypoints: waypoints,
+            travelMode: google.maps.TravelMode.DRIVING,
+            optimizeWaypoints: false,
+          };
+
+          directionsService.route(request, (result, status) => {
+            if (status === "OK") {
+              directionsRenderer.setDirections(result);
+
+              // Fit bounds to show all markers
+              const bounds = new google.maps.LatLngBounds();
+              markers.forEach((m) => bounds.extend(m.marker.getPosition()));
+              map.fitBounds(bounds);
+            }
+          });
+        }
+      }
+
+      // Modify your existing location input initialization
+      function initializeAutocomplete() {
+        const pickupInput = document.getElementById("pickup-location");
+        const dropoffInput = document.getElementById("dropoff-location");
+
+        const pickupAutocomplete = new google.maps.places.Autocomplete(
+          pickupInput,
+          {
+            fields: ["formatted_address", "geometry", "name"],
+          }
+        );
+
+        const dropoffAutocomplete = new google.maps.places.Autocomplete(
+          dropoffInput,
+          {
+            fields: ["formatted_address", "geometry", "name"],
+          }
+        );
+
+        pickupAutocomplete.addListener("place_changed", function () {
+          const place = pickupAutocomplete.getPlace();
+          if (place.geometry) {
+            pickupInput.placeLat = place.geometry.location.lat();
+            pickupInput.placeLng = place.geometry.location.lng();
+            updateRoute();
+          }
+        });
+
+        dropoffAutocomplete.addListener("place_changed", function () {
+          const place = dropoffAutocomplete.getPlace();
+          if (place.geometry) {
+            dropoffInput.placeLat = place.geometry.location.lat();
+            dropoffInput.placeLng = place.geometry.location.lng();
+            updateRoute();
+          }
+        });
+      }
+
+      // Modify your existing addStop function
+      function addStop() {
+        // Previous stop addition code...
+
+        const stopInput = document.getElementById(
+          `stop-location-${stopCounter}`
+        );
+        const stopAutocomplete = new google.maps.places.Autocomplete(
+          stopInput,
+          {
+            fields: ["formatted_address", "geometry", "name"],
+          }
+        );
+
+        stopAutocomplete.addListener("place_changed", function () {
+          const place = stopAutocomplete.getPlace();
+          if (place.geometry) {
+            stopInput.placeLat = place.geometry.location.lat();
+            stopInput.placeLng = place.geometry.location.lng();
+            updateRoute();
+          }
+        });
+
+        stopCounter++;
+      }
+
+      // Initialize map when Google Maps API loads
+      function initAutocomplete() {
+        initMap();
+        initializeAutocomplete();
+      }
+      // Set minimum date to today
+      const today = new Date().toISOString().split("T")[0];
+      document.getElementById("pickup-date").min = today;
+      document.getElementById("pickup-date").value = today;
+
+      // Set current time as default
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, "0");
+      const minutes = String(now.getMinutes()).padStart(2, "0");
+      document.getElementById("pickup-time").value = `${hours}:${minutes}`;
+
+      // Counter functionality
+      function updateCounter(id, change) {
+        const input = document.getElementById(id);
+        let value = parseInt(input.value);
+
+        if (id === "travellers") {
+          // Minimum 1 traveller
+          value = Math.max(1, value + change);
+        } else {
+          // Minimum 0 for kids and bags
+          value = Math.max(0, value + change);
+        }
+
+        input.value = value;
+      }
+
+      // Validate date and time selections
+      document
+        .getElementById("pickup-date")
+        .addEventListener("change", function () {
+          if (this.value < today) {
+            alert("Please select a future date");
+            this.value = today;
+          }
+        });
+
+      document
+        .getElementById("pickup-time")
+        .addEventListener("change", function () {
+          const selectedDate = document.getElementById("pickup-date").value;
+          if (selectedDate === today) {
+            const currentTime = `${hours}:${minutes}`;
+            if (this.value < currentTime) {
+              alert("Please select a future time");
+              this.value = currentTime;
+            }
+          }
+        });
+
+      let pickupPlace = null;
+      let dropoffPlace = null;
+
+      function initAutocomplete() {
+        // Initialize autocomplete for pickup location
+        const pickupInput = document.getElementById("pickup-location");
+        const pickupAutocomplete = new google.maps.places.Autocomplete(
+          pickupInput,
+          {
+            fields: ["formatted_address", "geometry", "name"],
+          }
+        );
+
+        // Initialize autocomplete for dropoff location
+        const dropoffInput = document.getElementById("dropoff-location");
+        const dropoffAutocomplete = new google.maps.places.Autocomplete(
+          dropoffInput,
+          {
+            fields: ["formatted_address", "geometry", "name"],
+          }
+        );
+
+        // Add place_changed event listeners
+        pickupAutocomplete.addListener("place_changed", function () {
+          pickupPlace = pickupAutocomplete.getPlace();
+          calculateDistance();
+        });
+
+        dropoffAutocomplete.addListener("place_changed", function () {
+          dropoffPlace = dropoffAutocomplete.getPlace();
+          calculateDistance();
+        });
+      }
+
+      function calculateDistance() {
+        if (!pickupPlace || !dropoffPlace) {
+          return;
+        }
+
+        const service = new google.maps.DistanceMatrixService();
+
+        service.getDistanceMatrix(
+          {
+            origins: [pickupPlace.formatted_address],
+            destinations: [dropoffPlace.formatted_address],
+            travelMode: google.maps.TravelMode.DRIVING,
+            unitSystem: google.maps.UnitSystem.METRIC,
+          },
+          function (response, status) {
+            if (status === "OK") {
+              const distance = response.rows[0].elements[0].distance.text;
+              const duration = response.rows[0].elements[0].duration.text;
+
+              document.getElementById("distance-info").style.display = "block";
+              document.getElementById(
+                "distance-value"
+              ).textContent = `${distance} (approximately ${duration} by car)`;
+            }
+          }
+        );
+      }
+
+      // Previous JavaScript code for date/time and counters...
+
+      window.onerror = function (msg, url, lineNo, columnNo, error) {
+        console.error(
+          "Error: " +
+            msg +
+            "\nURL: " +
+            url +
+            "\nLine: " +
+            lineNo +
+            "\nColumn: " +
+            columnNo +
+            "\nError object: " +
+            JSON.stringify(error)
+        );
+        return false;
+      };
+      let stopCounter = 0;
+
+      function createLocationSection(type) {
+        const section = document.createElement("div");
+        section.className = "location-section";
+        if (type === "stop") {
+          section.id = `stop-${stopCounter}`;
+        }
+
+        section.innerHTML = `
+        <div class="location-type">
+            <div class="header-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span>Location Type:</span>
+                ${
+                  type === "stop"
+                    ? `
+                    <button onclick="removeStop('${section.id}')" class="remove-stop" style="background: none; border: none; color: red; cursor: pointer;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                `
+                    : ""
+                }
+            </div>
+            <div class="tab-group">
+                <button class="btn btn-primary">Search All</button>
+                <button class="btn btn-secondary">Airport</button>
+            </div>
+        </div>
+        <div class="search-container">
+            <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <div style="display: flex; gap: 8px; width: 100%;">
+                <input 
+                    type="text" 
+                    class="search-input" 
+                    placeholder="Enter location"
+                    id="${
+                      type === "stop"
+                        ? `stop-location-${stopCounter}`
+                        : `${type}-location`
+                    }"
+                    style="flex: 1;"
+                >
+                <button 
+                    onclick="showLocationOnMap('${
+                      type === "stop"
+                        ? `stop-location-${stopCounter}`
+                        : `${type}-location`
+                    }')" 
+                    class="btn btn-primary"
+                    style="white-space: nowrap;"
+                >
+                    Show on Map
+                </button>
+            </div>
+        </div>
+    `;
+
+        return section;
+      }
+
+      function addStop() {
+        const addStopButton = document.querySelector(".add-stop");
+        const newStop = createLocationSection("stop");
+        addStopButton.parentNode.insertBefore(newStop, addStopButton);
+
+        // Initialize Google Places Autocomplete for the new stop
+        const stopInput = document.getElementById(
+          `stop-location-${stopCounter}`
+        );
+        const stopAutocomplete = new google.maps.places.Autocomplete(
+          stopInput,
+          {
+            fields: ["formatted_address", "geometry", "name"],
+          }
+        );
+
+        stopAutocomplete.addListener("place_changed", function () {
+          const place = stopAutocomplete.getPlace();
+          recalculateRoute();
+        });
+
+        stopCounter++;
+      }
+
+      function removeStop(stopId) {
+        const stopSection = document.getElementById(stopId);
+        if (stopSection) {
+          stopSection.remove();
+          recalculateRoute();
+        }
+      }
+
+      function recalculateRoute() {
+        // Get all location inputs including stops
+        const locations = [];
+        const pickupPlace = document.getElementById("pickup-location").value;
+        const dropoffPlace = document.getElementById("dropoff-location").value;
+
+        if (pickupPlace) locations.push(pickupPlace);
+
+        // Add all stops in order
+        for (let i = 0; i < stopCounter; i++) {
+          const stopInput = document.getElementById(`stop-location-${i}`);
+          if (stopInput && stopInput.value) {
+            locations.push(stopInput.value);
+          }
+        }
+
+        if (dropoffPlace) locations.push(dropoffPlace);
+
+        if (locations.length >= 2) {
+          calculateTotalDistance(locations);
+        }
+      }
+
+      function calculateTotalDistance(locations) {
+        const service = new google.maps.DistanceMatrixService();
+
+        // Create arrays for origins (all locations except last) and destinations (all locations except first)
+        const origins = locations.slice(0, -1);
+        const destinations = locations.slice(1);
+
+        service.getDistanceMatrix(
+          {
+            origins: origins,
+            destinations: destinations,
+            travelMode: google.maps.TravelMode.DRIVING,
+            unitSystem: google.maps.UnitSystem.METRIC,
+          },
+          function (response, status) {
+            if (status === "OK") {
+              let totalDistance = 0;
+              let totalDuration = 0;
+
+              for (let i = 0; i < response.rows.length; i++) {
+                totalDistance += response.rows[i].elements[i].distance.value;
+                totalDuration += response.rows[i].elements[i].duration.value;
+              }
+
+              // Convert to kilometers and hours
+              const distanceInKm = (totalDistance / 1000).toFixed(1);
+              const durationInHours = (totalDuration / 3600).toFixed(1);
+
+              document.getElementById("distance-info").style.display = "block";
+              document.getElementById(
+                "distance-value"
+              ).textContent = `${distanceInKm} km (approximately ${durationInHours} hours by car)`;
+            }
+          }
+        );
+      }
+
+      // Add click handler to the "ADD STOP" button
+      document.querySelector(".add-stop").addEventListener("click", addStop);
+
+      // Initialize the form with pickup and dropoff sections
+      window.onload = function () {
+        const container = document.querySelector(".container");
+        const addStopButton = document.querySelector(".add-stop");
+
+        // Clear existing location sections
+        const existingSections = document.querySelectorAll(".location-section");
+        existingSections.forEach((section) => section.remove());
+
+        // Add pickup and dropoff sections
+        const pickupSection = createLocationSection("pickup");
+        const dropoffSection = createLocationSection("dropoff");
+
+        addStopButton.parentNode.insertBefore(pickupSection, addStopButton);
+        addStopButton.parentNode.insertBefore(dropoffSection, addStopButton);
+
+        // Initialize Google Places Autocomplete for pickup and dropoff
+        initializeAutocomplete();
+      };
+
+      function initializeAutocomplete() {
+        const pickupInput = document.getElementById("pickup-location");
+        const dropoffInput = document.getElementById("dropoff-location");
+
+        const pickupAutocomplete = new google.maps.places.Autocomplete(
+          pickupInput,
+          {
+            fields: ["formatted_address", "geometry", "name"],
+          }
+        );
+
+        const dropoffAutocomplete = new google.maps.places.Autocomplete(
+          dropoffInput,
+          {
+            fields: ["formatted_address", "geometry", "name"],
+          }
+        );
+
+        pickupAutocomplete.addListener("place_changed", recalculateRoute);
+        dropoffAutocomplete.addListener("place_changed", recalculateRoute);
+      }
+      function bookRide() {
+        // Get all the form data
+        const pickupDate = document.getElementById("pickup-date").value;
+        const pickupTime = document.getElementById("pickup-time").value;
+
+        // Combine date and time
+        alert(pickupTime);
+        const dateTime = new Date(pickupDate + "T" + pickupTime);
+
+        // Get pickup and dropoff locations
+        const pickupInput = document.getElementById("pickup-location");
+        const dropoffInput = document.getElementById("dropoff-location");
+
+        // Get passenger counts
+        const numTravelers = document.getElementById("travellers").value;
+        const numKids = document.getElementById("kids").value;
+        const numBags = document.getElementById("bags").value;
+
+        // Get distance and duration from the display
+        const distanceInfo =
+          document.getElementById("distance-value").textContent;
+        let distance = 0;
+        let duration = 0;
+        alert("we here");
+        if (distanceInfo) {
+          // Extract numeric distance value (assumes format "X.X km (approximately Y.Y hours by car)")
+          const distanceMatch = distanceInfo.match(/(\d+\.?\d*)\s*km/);
+          const durationMatch = distanceInfo.match(/(\d+\.?\d*)\s*hours/);
+
+          if (distanceMatch) {
+            distance = parseFloat(distanceMatch[1]);
+          }
+          if (durationMatch) {
+            duration = parseFloat(durationMatch[1]) * 60; // Convert hours to minutes
+          }
+        }
+        alert("we not here");
+
+        // Get all stops
+        const stops = [];
+        for (let i = 0; i < stopCounter; i++) {
+          const stopInput = document.getElementById(`stop-location-${i}`);
+          if (stopInput && stopInput.value) {
+            stops.push({
+              location: stopInput.value,
+              order: i + 1,
+              lat: stopInput.placeLat,
+              lng: stopInput.placeLng,
+              location_type: "SEARCH", // Default to SEARCH, can be modified based on selection
+            });
+          }
+        }
+
+        // Create the request payload
+        const payload = {
+          ride_type:
+            document.querySelector(".btn-primary").textContent.trim() ===
+            "TRANSFER"
+              ? "TRANSFER"
+              : "HOURLY",
+          num_travelers: parseInt(numTravelers),
+          num_kids: parseInt(numKids),
+          num_bags: parseInt(numBags),
+          starting_location: pickupInput.value,
+          starting_lat: pickupInput.placeLat,
+          starting_lng: pickupInput.placeLng,
+          starting_location_type: "SEARCH",
+          ending_location: dropoffInput.value,
+          ending_lat: dropoffInput.placeLat,
+          ending_lng: dropoffInput.placeLng,
+          ending_location_type: "SEARCH",
+          time: dateTime.toISOString(),
+          stops: stops,
+          distance: distance,
+          duration: duration,
+        };
+        // alert("normal wala")
+        // alert(dateTime)
+        // alert("io wala")
+        // alert(dateTime.toISOString())
+        // Send the request to the backend
+        fetch("/book_a_ride/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCSRFToken(), // Function to get CSRF token
+          },
+          body: JSON.stringify(payload),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.redirect) {
+              window.location.href = window.location.href =
+                window.location.origin + data.url;
+              return;
+            }
+            if (data.success) {
+              alert("Ride booked successfully!");
+              window.location.href = window.location.href =
+                window.location.origin + data.url;
+            } else {
+              alert("Error booking ride: " + data.error);
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            alert(
+              "Error booking ride: " + (error.message || "Please try again")
+            );
+          });
+      }
+
+      // Helper function to get CSRF token from cookies
+
+      // Helper function to get CSRF token from cookies
+      function getCSRFToken() {
+        const name = "csrftoken";
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== "") {
+          const cookies = document.cookie.split(";");
+          for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === name + "=") {
+              cookieValue = decodeURIComponent(
+                cookie.substring(name.length + 1)
+              );
+              break;
+            }
+          }
+        }
+        return cookieValue;
+      }
+
+      // Add event listener to Continue button
+      document.addEventListener("DOMContentLoaded", function () {
+        const continueButton = document.querySelector(".footer .btn-primary");
+        if (continueButton) {
+          continueButton.addEventListener("click", bookRide);
+        }
+      });
+    </script>
+  </body>
+</html>

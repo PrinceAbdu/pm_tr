@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% include 'header.html' with page_title="Custom Page Title" %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Ride Management</title>
+    {% load static %}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .dashboard-header {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .date-selector {
+            width: 300px;
+        }
+
+        .date-selector select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            background: white;
+        }
+
+        .rides-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .rides-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .rides-table th,
+        .rides-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .rides-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .rides-table tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .btn-confirm {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .btn-confirm:hover {
+            background-color: #218838;
+        }
+
+        .btn-cancel {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-cancel:hover {
+            background-color: #c82333;
+        }
+
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .status-scheduled {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        .status-completed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .no-rides {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .ride-time {
+            font-weight: 500;
+            color: #4b6cb7;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #4b6cb7;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .date-selector {
+                width: 100%;
+            }
+
+            .rides-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+        .rides-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.rides-table th,
+.rides-table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+}
+
+.location-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.location-info small {
+    color: #666;
+    font-size: 0.8em;
+}
+
+.stops-list {
+    max-width: 200px;
+}
+
+.stops-list ul {
+    margin: 5px 0 0 0;
+    padding-left: 20px;
+    font-size: 0.9em;
+}
+
+.passenger-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.passenger-info span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.trip-metrics {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.price-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.price-info small {
+    color: #666;
+    font-size: 0.8em;
+}
+
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+.status-scheduled {
+    background-color: #ffd700;
+    color: #000;
+}
+
+.status-confirmed {
+    background-color: #90EE90;
+    color: #000;
+}
+
+.status-cancelled {
+    background-color: #ffcccb;
+    color: #000;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.btn-confirm {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.btn-cancel {
+    background-color: #f44336;
+    color: white;
+}
+.btn-complete {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-complete:hover {
+    background-color: #0056b3;
+}
+.action-buttons {
+    display: flex;
+    flex-direction: column;  /* Changed from row to column */
+    gap: 8px;               /* Space between buttons */
+}
+
+/* Make buttons take full width of their container */
+.action-buttons .btn {
+    width: 100%;
+    justify-content: center;  /* Center the icon and text */
+    padding: 8px 16px;
+}
+    </style>
+</head>
+<body>
+    {% csrf_token %}
+    <div class="container">
+        <div class="dashboard-header">
+            <div class="header-content">
+                <h1>Admin Dashboard</h1>
+                <div class="date-selector">
+                    <select id="date-select" onchange="this.form.submit()">
+                        <option value="">Select a date</option>
+                        {% for date in dates %}
+                            <option value="{{ date|date:'Y-m-d' }}" 
+                                    {% if selected_date == date|date:'Y-m-d' %}selected{% endif %}>
+                                {{ date|date:'F d, Y' }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="rides-container">
+            {% if selected_date %}
+                {% if rides %}
+                    <table class="rides-table">
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Customer</th>
+                                <th>From</th>
+                                <th>Stops</th>
+                                <th>To</th>
+                                <th>Passengers</th>
+                                <th>Distance & Duration</th>
+                                <th>Price</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for ride in rides %}
+                            <tr id="ride-{{ ride.id }}">
+                                <td class="ride-time">{{ ride.time|time:'H:i' }}</td>
+                                <td>
+                                    <div class="user-info">
+                                        <div class="user-avatar">{{ ride.user.username.0|upper }}</div>
+                                        <span>{{ ride.user.username }}</span>
+                                        <span>{{ ride.user.phone_number }}</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="location-info">
+                                        <span>{{ ride.starting_location }}</span>
+                                        {% if ride.starting_flight_number %}
+                                            
+                                            <small>Flight number: {{ ride.starting_flight_number }} </small>
+                                            
+
+                                            {% endif %}
+                                        <!-- <small>Type: {{ ride.starting_location_type }}</small> -->
+                                    </div>
+                                </td>
+                                <td>
+                                    {% if ride.stops.count > 0 %}
+                                    <div class="stops-list">
+                                        <span class="stop-count">{{ ride.stops.count }} stops:</span>
+                                        <ul>
+                                            {% for stop in ride.stops.all %}
+                                            <li>{{ stop.location }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    {% else %}
+                                    <span>No stops</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="location-info">
+                                        <span>{{ ride.ending_location }}</span>
+                                        {% if ride.ending_flight_number %}
+                                       
+                                            <small>Flight number: {{ ride.ending_flight_number }} </smalls>
+
+                                        {% endif %}
+                                        <!-- <small>Type: {{ ride.ending_location_type }}</small> -->
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="passenger-info">
+                                        <span><i class="fas fa-user"></i> Adults: {{ ride.num_travelers }}</span>
+                                        <span><i class="fas fa-child"></i> Children: {{ ride.num_kids }}</span>
+                                        <span><i class="fas fa-suitcase"></i> Bags: {{ ride.num_bags }}</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="trip-metrics">
+                                        <span><i class="fas fa-road"></i> {{ ride.distance }} km</span>
+                                        <span><i class="fas fa-clock"></i> {{ ride.duration }} mins</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="price-info">
+                                        <span>${{ ride.price }}</span>
+                                        <small>{{ ride.ride_type }}</small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="status-badge status-{{ ride.status|lower }}">
+                                        {{ ride.status }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="action-buttons">
+                                        {% if ride.status == 'SCHEDULED' %}
+                                            <button onclick="updateRideStatus('{{ ride.id }}', 'CONFIRMED')" 
+                                                    class="btn btn-confirm">
+                                                <i class="fas fa-check"></i> Confirm
+                                            </button>
+                                            <button onclick="updateRideStatus('{{ ride.id }}', 'CANCELLED')" 
+                                                    class="btn btn-cancel">
+                                                <i class="fas fa-times"></i> Cancel
+                                            </button>
+                                        {% elif ride.status == 'CONFIRMED' %}
+                                            <button onclick="updateRideStatus('{{ ride.id }}', 'COMPLETED')" 
+                                                    class="btn btn-complete">
+                                                <i class="fas fa-flag-checkered"></i> Complete
+                                            </button>
+                                            <button onclick="updateRideStatus('{{ ride.id }}', 'CANCELLED')" 
+                                                    class="btn btn-cancel">
+                                                <i class="fas fa-times"></i> Cancel
+                                            </button>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div class="no-rides">
+                        <i class="fas fa-calendar-day fa-3x" style="color: #ccc; margin-bottom: 20px;"></i>
+                        <h3>No scheduled rides for this date</h3>
+                    </div>
+                {% endif %}
+            {% else %}
+                <div class="no-rides">
+                    <i class="fas fa-calendar fa-3x" style="color: #ccc; margin-bottom: 20px;"></i>
+                    <h3>Select a date to view scheduled rides</h3>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+   <script>
+function updateRideStatus(rideId, status) {
+    if (!confirm(`Are you sure you want to mark this ride as ${status.toLowerCase()}?`)) {
+        return;
+    }
+
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    
+    fetch('/update-ride-status/', {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': csrftoken,
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `ride_id=${rideId}&status=${status}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const row = document.getElementById(`ride-${rideId}`);
+            const actionButtons = row.querySelector('.action-buttons');
+            const statusCell = row.querySelector('.status-badge');
+            
+            // Update status badge
+            statusCell.className = `status-badge status-${status.toLowerCase()}`;
+            statusCell.textContent = status;
+            
+            // Update action buttons based on new status
+            if (status === 'CONFIRMED') {
+                actionButtons.innerHTML = `
+                    <button onclick="updateRideStatus('${rideId}', 'COMPLETED')" 
+                            class="btn btn-complete">
+                        <i class="fas fa-flag-checkered"></i> Complete
+                    </button>
+                    <button onclick="updateRideStatus('${rideId}', 'CANCELLED')" 
+                            class="btn btn-cancel">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                `;
+            } else if (status === 'CANCELLED' || status === 'COMPLETED') {
+                actionButtons.innerHTML = '';
+            }
+            
+            setTimeout(() => {
+                window.location.reload();
+            }, 500);
+        } else {
+            alert('Error updating ride status');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error updating ride status');
+    });
+}        // Auto-submit form when date changes
+        document.getElementById('date-select').addEventListener('change', function() {
+            window.location.href = `?date=${this.value}`;
+        });
+    </script>
+</body>
+</html>

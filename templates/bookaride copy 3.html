@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transfer and Hourly Reservation Form</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+      }
+
+      body {
+        background-color: #f5f5f5;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1000px;
+        margin: 0 auto;
+        background: white;
+        padding: 32px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 32px;
+      }
+
+      .title {
+        font-size: 24px;
+        font-weight: bold;
+      }
+
+      .button-group {
+        display: flex;
+        gap: 8px;
+      }
+
+      .btn {
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border: none;
+        font-size: 14px;
+      }
+
+      .btn-primary {
+        background-color: black;
+        color: white;
+      }
+
+      .btn-secondary {
+        background-color: white;
+        border: 1px solid #ddd;
+      }
+
+      .date-time-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-bottom: 24px;
+      }
+
+      .input-group {
+        position: relative;
+      }
+
+      input[type="date"],
+      input[type="time"],
+      input[type="number"] {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+        cursor: pointer;
+      }
+
+      .input-group .icon {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        pointer-events: none;
+        color: #666;
+      }
+
+      .location-section {
+        background-color: #f9f9f9;
+        padding: 16px;
+        border-radius: 8px;
+        margin-bottom: 16px;
+      }
+
+      .location-type {
+        margin-bottom: 12px;
+      }
+
+      .location-type span {
+        color: #666;
+        font-size: 14px;
+      }
+
+      .tab-group {
+        display: flex;
+        gap: 8px;
+        margin-top: 4px;
+      }
+
+      .search-container {
+        position: relative;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 12px 40px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+
+      .search-icon {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+
+      .edit-icon {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+
+      .add-stop {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: black;
+        background: none;
+        border: none;
+        cursor: pointer;
+        margin-bottom: 24px;
+        font-size: 14px;
+      }
+
+      .counter-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+      }
+
+      .counter-group {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .counter-label {
+        font-size: 14px;
+        color: #666;
+      }
+
+      .counter {
+        display: flex;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+
+      .counter button {
+        padding: 8px 16px;
+        border: none;
+        background: none;
+        cursor: pointer;
+      }
+
+      .counter input {
+        flex: 1;
+        text-align: center;
+        border: none;
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+      }
+
+      .footer {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 32px;
+      }
+      .pac-container {
+        z-index: 1051 !important;
+      }
+
+      .distance-info {
+        margin-top: 16px;
+        padding: 12px;
+        background-color: #f0f0f0;
+        border-radius: 4px;
+        font-size: 14px;
+        color: #333;
+      }
+      /* Hide default date and time picker icons */
+      input[type="date"]::-webkit-calendar-picker-indicator,
+      input[type="time"]::-webkit-calendar-picker-indicator {
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        cursor: pointer;
+      }
+      .container-wrapper {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+        max-width: 2000px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      #map-container {
+        position: sticky;
+        top: 20px;
+        height: calc(100vh - 40px);
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      #map {
+        width: 100%;
+        height: 100%;
+      }
+
+      .marker-label {
+        background: #000;
+        color: #fff;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: bold;
+      }
+
+      /* Add styles for the tab system */
+      .tab-content {
+        display: none;
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      /* Hours input container */
+      .hours-container {
+        margin-bottom: 24px;
+      }
+
+      .hours-label {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 4px;
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-wrapper">
+      <div class="container">
+        <div class="header">
+          <h1 class="title">WHERE & WHEN</h1>
+          <div class="button-group" id="tab-buttons">
+            <button class="btn btn-primary" id="transfer-btn">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+              TRANSFER
+            </button>
+            <button class="btn btn-secondary" id="hourly-btn">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M12 6v6l4 2"></path>
+              </svg>
+              HOURLY
+            </button>
+          </div>
+        </div>
+
+        <div class="date-time-container">
+          <div class="input-group">
+            <input type="date" id="pickup-date" class="input-field" />
+            <span class="icon">📅</span>
+          </div>
+          <div class="input-group">
+            <input type="time" id="pickup-time" class="input-field" />
+            <svg
+              class="icon"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M12 6v6l4 2"></path>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Transfer Tab Content -->
+        <div id="transfer-tab" class="tab-content active">
+          <div id="pickup-section" class="location-section">
+            <div class="location-type">
+              <span>Pickup Location:</span>
+              <div class="tab-group">
+                <button class="btn btn-primary">Search</button>
+              </div>
+            </div>
+            <div class="search-container">
+              <svg
+                class="search-icon"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input
+                type="text"
+                id="pickup-location"
+                class="search-input"
+                placeholder="Enter pickup location"
+              />
+            </div>
+          </div>
+
+          <div id="dropoff-section" class="location-section">
+            <div class="location-type">
+              <span>Dropoff Location:</span>
+              <div class="tab-group">
+                <button class="btn btn-primary">Search</button>
+              </div>
+            </div>
+            <div class="search-container">
+              <svg
+                class="search-icon"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input
+                type="text"
+                id="dropoff-location"
+                class="search-input"
+                placeholder="Enter dropoff location"
+              />
+            </div>
+          </div>
+
+          <div id="distance-info" class="distance-info" style="display: none">
+            Estimated distance: <span id="distance-value">calculating...</span>
+          </div>
+
+          <button class="add-stop" id="add-stop-btn">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            ADD STOP
+          </button>
+        </div>
+
+        <!-- Hourly Tab Content -->
+        <div id="hourly-tab" class="tab-content">
+          <div id="hourly-pickup-section" class="location-section">
+            <div class="location-type">
+              <span>Pickup Location:</span>
+              <div class="tab-group">
+                <button class="btn btn-primary">Search</button>
+              </div>
+            </div>
+            <div class="search-container">
+              <svg
+                class="search-icon"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input
+                type="text"
+                id="hourly-pickup-location"
+                class="search-input"
+                placeholder="Enter pickup location"
+              />
+            </div>
+          </div>
+
+          <div class="hours-container">
+            <label for="num-hours" class="hours-label">Number of Hours:</label>
+            <div class="input-group">
+              <input
+                type="number"
+                id="num-hours"
+                min="1"
+                max="24"
+                value="1"
+                class="input-field"
+              />
+              <svg
+                class="icon"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M12 6v6l4 2"></path>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="counter-container">
+          <div class="counter-group">
+            <span class="counter-label">Travellers:</span>
+            <div class="counter">
+              <button onclick="updateCounter('travellers', -1)">-</button>
+              <input type="text" id="travellers" value="1" readonly />
+              <button onclick="updateCounter('travellers', 1)">+</button>
+            </div>
+          </div>
+          <div class="counter-group">
+            <span class="counter-label">Kids:</span>
+            <div class="counter">
+              <button onclick="updateCounter('kids', -1)">-</button>
+              <input type="text" id="kids" value="0" readonly />
+              <button onclick="updateCounter('kids', 1)">+</button>
+            </div>
+          </div>
+          <div class="counter-group">
+            <span class="counter-label">Bags:</span>
+            <div class="counter">
+              <button onclick="updateCounter('bags', -1)">-</button>
+              <input type="text" id="bags" value="0" readonly />
+              <button onclick="updateCounter('bags', 1)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer">
+          <button class="btn btn-secondary">Cancel</button>
+          <button class="btn btn-primary" id="continue-btn">Continue</button>
+        </div>
+      </div>
+      <div id="map-container">
+        <div id="map"></div>
+      </div>
+    </div>
+
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDg72jcuTbOPMp5ElU5BEQN4UecokfSgsI&libraries=places&callback=initAutocomplete"
+      async
+      defer
+    ></script>
+    <script>
+      let map;
+      let directionsService;
+      let directionsRenderer;
+      let markers = [];
+      let isMapInitialized = false;
+      let stopCounter = 0;
+      let activeTab = "transfer";
+      let pickupPlace = null;
+      let dropoffPlace = null;
+      let hourlyPickupPlace = null;
+
+      document.addEventListener("DOMContentLoaded", function () {
+        // Add event listeners for tab buttons
+        document
+          .getElementById("transfer-btn")
+          .addEventListener("click", function () {
+            switchTab("transfer");
+          });
+
+        document
+          .getElementById("hourly-btn")
+          .addEventListener("click", function () {
+            switchTab("hourly");
+          });
+      });
+
+      // Switch between tabs
+      function switchTab(tabName) {
+        // Update active tab
+        activeTab = tabName;
+
+        // Update button styles
+        if (tabName === "transfer") {
+          document.getElementById("transfer-btn").className = "btn btn-primary";
+          document.getElementById("hourly-btn").className = "btn btn-secondary";
+          document.getElementById("transfer-tab").className =
+            "tab-content active";
+          document.getElementById("hourly-tab").className = "tab-content";
+
+          // Show distance info only in transfer mode
+          if (pickupPlace && dropoffPlace) {
+            document.getElementById("distance-info").style.display = "block";
+            calculateDistance();
+          }
+        } else {
+          document.getElementById("transfer-btn").className =
+            "btn btn-secondary";
+          document.getElementById("hourly-btn").className = "btn btn-primary";
+          document.getElementById("transfer-tab").className = "tab-content";
+          document.getElementById("hourly-tab").className =
+            "tab-content active";
+
+          // Hide distance info in hourly mode
+          document.getElementById("distance-info").style.display = "none";
+        }
+
+        // Clear route if map is initialized
+        if (isMapInitialized && directionsRenderer) {
+          directionsRenderer.setDirections({ routes: [] });
+        }
+
+        // Update map markers based on active tab
+        updateMapWithActiveTabLocations();
+      }
+
+      function updateMapWithActiveTabLocations() {
+        if (!isMapInitialized) return;
+
+        // Clear existing markers
+        markers.forEach((m) => m.marker.setMap(null));
+        markers = [];
+
+        if (activeTab === "transfer") {
+          // Show pickup, stops, and dropoff
+          const pickupInput = document.getElementById("pickup-location");
+          if (pickupInput && pickupInput.placeLat && pickupInput.placeLng) {
+            createCustomMarker(
+              { lat: pickupInput.placeLat, lng: pickupInput.placeLng },
+              "P"
+            );
+          }
+
+          // Add all stops
+          for (let i = 0; i < stopCounter; i++) {
+            const stopInput = document.getElementById(`stop-location-${i}`);
+            if (stopInput && stopInput.placeLat && stopInput.placeLng) {
+              createCustomMarker(
+                { lat: stopInput.placeLat, lng: stopInput.placeLng },
+                `S${i + 1}`
+              );
+            }
+          }
+
+          // Add dropoff
+          const dropoffInput = document.getElementById("dropoff-location");
+          if (dropoffInput && dropoffInput.placeLat && dropoffInput.placeLng) {
+            createCustomMarker(
+              { lat: dropoffInput.placeLat, lng: dropoffInput.placeLng },
+              "D"
+            );
+          }
+
+          // Update route if we have both pickup and dropoff
+          updateRoute();
+
+          // Also calculate distance using DistanceMatrix service (this uses the original code's logic)
+          if (pickupPlace && dropoffPlace) {
+            calculateDistance();
+          }
+        } else {
+          // For hourly, just show pickup
+          const hourlyPickupInput = document.getElementById(
+            "hourly-pickup-location"
+          );
+          if (
+            hourlyPickupInput &&
+            hourlyPickupInput.placeLat &&
+            hourlyPickupInput.placeLng
+          ) {
+            createCustomMarker(
+              {
+                lat: hourlyPickupInput.placeLat,
+                lng: hourlyPickupInput.placeLng,
+              },
+              "P"
+            );
+            // Center map on pickup location
+            map.setCenter({
+              lat: hourlyPickupInput.placeLat,
+              lng: hourlyPickupInput.placeLng,
+            });
+            map.setZoom(15);
+          }
+        }
+      }
+
+      function initializeMap() {
+        if (!isMapInitialized) {
+          console.log("Initializing map...");
+
+          // Create map
+          map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 12,
+            center: { lat: 20.5937, lng: 78.9629 },
+            mapTypeControl: true,
+            streetViewControl: true,
+            zoomControl: true,
+            fullscreenControl: true,
+          });
+
+          // Initialize directions services
+          directionsService = new google.maps.DirectionsService();
+          directionsRenderer = new google.maps.DirectionsRenderer({
+            map: map,
+            suppressMarkers: true,
+            polylineOptions: {
+              strokeColor: "#2196F3",
+              strokeWeight: 5,
+            },
+          });
+
+          isMapInitialized = true;
+          console.log("Map initialized successfully");
+        }
+      }
+
+      function showLocationOnMap(inputId) {
+        console.log("Showing location for:", inputId);
+
+        // Initialize map if not already done
+        if (!isMapInitialized) {
+          initializeMap();
+        }
+
+        const input = document.getElementById(inputId);
+        if (!input.placeLat || !input.placeLng) {
+          alert("Please select a location from the dropdown first");
+          return;
+        }
+
+        // Clear existing markers
+        markers.forEach((m) => m.marker.setMap(null));
+        markers = [];
+
+        // Create marker for the selected location
+        const position = { lat: input.placeLat, lng: input.placeLng };
+        let label = "P"; // Default label
+
+        if (
+          inputId === "pickup-location" ||
+          inputId === "hourly-pickup-location"
+        ) {
+          label = "P";
+        } else if (inputId === "dropoff-location") {
+          label = "D";
+        } else if (inputId.startsWith("stop-location-")) {
+          const stopNum = inputId.split("-")[2];
+          label = `S${parseInt(stopNum) + 1}`;
+        }
+
+        createCustomMarker(position, label);
+
+        // Center map on the location
+        map.setCenter(position);
+        map.setZoom(15);
+
+        // Update route if in transfer mode
+        if (activeTab === "transfer") {
+          updateRoute();
+        }
+      }
+
+      function createCustomMarker(position, label) {
+        // Remove existing marker with same label
+        markers = markers.filter((marker) => {
+          if (marker.label === label) {
+            marker.marker.setMap(null);
+            return false;
+          }
+          return true;
+        });
+
+        const marker = new google.maps.Marker({
+          position: position,
+          map: map,
+          label: {
+            text: label,
+            color: "#FFFFFF",
+            fontSize: "14px",
+            fontWeight: "bold",
+          },
+          icon: {
+            path: google.maps.SymbolPath.CIRCLE,
+            scale: 12,
+            fillColor: "#000000",
+            fillOpacity: 1,
+            strokeWeight: 0,
+          },
+        });
+
+        markers.push({ marker, label });
+        return marker;
+      }
+
+      function updateRoute() {
+        if (activeTab !== "transfer") return;
+
+        // Get all waypoints
+        const waypoints = [];
+        let origin = null;
+        let destination = null;
+
+        // Get pickup location
+        const pickupInput = document.getElementById("pickup-location");
+        if (pickupInput && pickupInput.placeLat && pickupInput.placeLng) {
+          origin = { lat: pickupInput.placeLat, lng: pickupInput.placeLng };
+        }
+
+        // Get all stops
+        for (let i = 0; i < stopCounter; i++) {
+          const stopInput = document.getElementById(`stop-location-${i}`);
+          if (stopInput && stopInput.placeLat && stopInput.placeLng) {
+            waypoints.push({
+              location: { lat: stopInput.placeLat, lng: stopInput.placeLng },
+              stopover: true,
+            });
+          }
+        }
+
+        // Get dropoff location
+        const dropoffInput = document.getElementById("dropoff-location");
+        if (dropoffInput && dropoffInput.placeLat && dropoffInput.placeLng) {
+          destination = {
+            lat: dropoffInput.placeLat,
+            lng: dropoffInput.placeLng,
+          };
+        }
+
+        // If we have both origin and destination, calculate route
+        if (origin && destination) {
+          const request = {
+            origin: origin,
+            destination: destination,
+            waypoints: waypoints,
+            travelMode: google.maps.TravelMode.DRIVING,
+            optimizeWaypoints: false,
+          };
+
+          directionsService.route(request, (result, status) => {
+            if (status === "OK") {
+              directionsRenderer.setDirections(result);
+
+              // Fit bounds to show all markers
+              const bounds = new google.maps.LatLngBounds();
+              markers.forEach((m) => bounds.extend(m.marker.getPosition()));
+              map.fitBounds(bounds);
+
+              // Also calculate distance with stops (in addition to direct distance calculation)
+              if (waypoints.length > 0) {
+                calculateTotalDistance();
+              }
+            }
+          });
+        }
+      }
+
+      // Calculate total distance including stops (from your original code)
+      function calculateTotalDistance() {
+        if (activeTab !== "transfer") return;
+
+        // Get all location inputs including stops
+        const locations = [];
+        const pickupInput = document.getElementById("pickup-location");
+        const dropoffInput = document.getElementById("dropoff-location");
+
+        if (pickupInput && pickupInput.value) locations.push(pickupInput.value);
+
+        // Add all stops in order
+        for (let i = 0; i < stopCounter; i++) {
+          const stopInput = document.getElementById(`stop-location-${i}`);
+          if (stopInput && stopInput.value) {
+            locations.push(stopInput.value);
+          }
+        }
+
+        if (dropoffInput && dropoffInput.value)
+          locations.push(dropoffInput.value);
+
+        if (locations.length >= 2) {
+          const service = new google.maps.DistanceMatrixService();
+
+          // Create arrays for origins (all locations except last) and destinations (all locations except first)
+          const origins = locations.slice(0, -1);
+          const destinations = locations.slice(1);
+
+          service.getDistanceMatrix(
+            {
+              origins: origins,
+              destinations: destinations,
+              travelMode: google.maps.TravelMode.DRIVING,
+              unitSystem: google.maps.UnitSystem.METRIC,
+            },
+            function (response, status) {
+              if (status === "OK") {
+                let totalDistance = 0;
+                let totalDuration = 0;
+
+                for (let i = 0; i < response.rows.length; i++) {
+                  totalDistance += response.rows[i].elements[i].distance.value;
+                  totalDuration += response.rows[i].elements[i].duration.value;
+                }
+
+                // Convert to kilometers and hours
+                const distanceInKm = (totalDistance / 1000).toFixed(1);
+                const durationInHours = (totalDuration / 3600).toFixed(1);
+
+                document.getElementById("distance-info").style.display =
+                  "block";
+                document.getElementById(
+                  "distance-value"
+                ).textContent = `${distanceInKm} km (approximately ${durationInHours} hours by car)`;
+              }
+            }
+          );
+        }
+      }
+
+      function initializeAutocomplete() {
+        // For transfer tab
+        const pickupInput = document.getElementById("pickup-location");
+        const dropoffInput = document.getElementById("dropoff-location");
+
+        if (pickupInput) {
+          const pickupAutocomplete = new google.maps.places.Autocomplete(
+            pickupInput,
+            {
+              fields: ["formatted_address", "geometry", "name"],
+            }
+          );
+
+          pickupAutocomplete.addListener("place_changed", function () {
+            const place = pickupAutocomplete.getPlace();
+            pickupPlace = place; // Store the full place object
+
+            if (place.geometry) {
+              pickupInput.placeLat = place.geometry.location.lat();
+              pickupInput.placeLng = place.geometry.location.lng();
+              initializeMap();
+              updateMapWithActiveTabLocations();
+              calculateDistance(); // Calculate distance when pickup changes
+            }
+          });
+        }
+
+        if (dropoffInput) {
+          const dropoffAutocomplete = new google.maps.places.Autocomplete(
+            dropoffInput,
+            {
+              fields: ["formatted_address", "geometry", "name"],
+            }
+          );
+
+          dropoffAutocomplete.addListener("place_changed", function () {
+            const place = dropoffAutocomplete.getPlace();
+            dropoffPlace = place; // Store the full place object
+
+            if (place.geometry) {
+              dropoffInput.placeLat = place.geometry.location.lat();
+              dropoffInput.placeLng = place.geometry.location.lng();
+              initializeMap();
+              updateMapWithActiveTabLocations();
+              calculateDistance(); // Calculate distance when dropoff changes
+            }
+          });
+        }
+
+        // For hourly tab
+        const hourlyPickupInput = document.getElementById(
+          "hourly-pickup-location"
+        );
+        if (hourlyPickupInput) {
+          const hourlyPickupAutocomplete = new google.maps.places.Autocomplete(
+            hourlyPickupInput,
+            {
+              fields: ["formatted_address", "geometry", "name"],
+            }
+          );
+
+          hourlyPickupAutocomplete.addListener("place_changed", function () {
+            const place = hourlyPickupAutocomplete.getPlace();
+            hourlyPickupPlace = place; // Store the full place object
+
+            if (place.geometry) {
+              hourlyPickupInput.placeLat = place.geometry.location.lat();
+              hourlyPickupInput.placeLng = place.geometry.location.lng();
+              initializeMap();
+              updateMapWithActiveTabLocations();
+            }
+          });
+        }
+      }
+
+      // Function to calculate and display distance/duration between pickup and dropoff
+      function calculateDistance() {
+        if (activeTab !== "transfer") return;
+        if (!pickupPlace || !dropoffPlace) return;
+
+        const service = new google.maps.DistanceMatrixService();
+
+        service.getDistanceMatrix(
+          {
+            origins: [pickupPlace.formatted_address],
+            destinations: [dropoffPlace.formatted_address],
+            travelMode: google.maps.TravelMode.DRIVING,
+            unitSystem: google.maps.UnitSystem.METRIC,
+          },
+          function (response, status) {
+            if (status === "OK") {
+              const distance = response.rows[0].elements[0].distance.text;
+              const duration = response.rows[0].elements[0].duration.text;
+
+              document.getElementById("distance-info").style.display = "block";
+              document.getElementById(
+                "distance-value"
+              ).textContent = `${distance} (approximately ${duration} by car)`;
+            }
+          }
+        );
+      }
+
+      function createLocationSection(type) {
+        const section = document.createElement("div");
+        section.className = "location-section";
+        if (type === "stop") {
+          section.id = `stop-${stopCounter}`;
+        }
+
+        section.innerHTML = `
+        <div class="location-type">
+            <div class="header-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span>Stop ${stopCounter + 1}:</span>
+                <button onclick="removeStop('${
+                  section.id
+                }')" class="remove-stop" style="background: none; border: none; color: red; cursor: pointer;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="tab-group">
+                <button class="btn btn-primary">Search</button>
+            </div>
+        </div>
+        <div class="search-container">
+            <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input 
+                type="text" 
+                id="stop-location-${stopCounter}"
+                class="search-input" 
+                placeholder="Enter stop location"
+            >
+        </div>
+        `;
+
+        return section;
+      }
+
+      function addStop() {
+        const addStopButton = document.getElementById("add-stop-btn");
+        const newStop = createLocationSection("stop");
+        addStopButton.parentNode.insertBefore(newStop, addStopButton);
+
+        // Initialize Google Places Autocomplete for the new stop
+        const stopInput = document.getElementById(
+          `stop-location-${stopCounter}`
+        );
+        const stopAutocomplete = new google.maps.places.Autocomplete(
+          stopInput,
+          {
+            fields: ["formatted_address", "geometry", "name"],
+          }
+        );
+
+        stopAutocomplete.addListener("place_changed", function () {
+          const place = stopAutocomplete.getPlace();
+          if (place.geometry) {
+            stopInput.placeLat = place.geometry.location.lat();
+            stopInput.placeLng = place.geometry.location.lng();
+            updateMapWithActiveTabLocations();
+
+            // Recalculate total distance with the new stop
+            if (pickupPlace && dropoffPlace) {
+              calculateTotalDistance();
+            }
+          }
+        });
+
+        stopCounter++;
+      }
+
+      function removeStop(stopId) {
+        const stopSection = document.getElementById(stopId);
+        if (stopSection) {
+          stopSection.remove();
+          updateMapWithActiveTabLocations();
+
+          // Recalculate distance after removing a stop
+          if (pickupPlace && dropoffPlace) {
+            calculateTotalDistance();
+          }
+        }
+      }
+
+      function calculateDistance() {
+        if (activeTab !== "transfer") return;
+
+        const pickupInput = document.getElementById("pickup-location");
+        const dropoffInput = document.getElementById("dropoff-location");
+
+        if (
+          !pickupInput.value ||
+          !dropoffInput.value ||
+          !pickupInput.placeLat ||
+          !dropoffInput.placeLat
+        ) {
+          return;
+        }
+
+        const service = new google.maps.DistanceMatrixService();
+
+        // Collect all waypoints in order
+        const waypoints = [];
+        waypoints.push({
+          lat: pickupInput.placeLat,
+          lng: pickupInput.placeLng,
+        });
+
+        // Add all stops in order
+        for (let i = 0; i < stopCounter; i++) {
+          const stopInput = document.getElementById(`stop-location-${i}`);
+          if (stopInput && stopInput.placeLat && stopInput.placeLng) {
+            waypoints.push({
+              lat: stopInput.placeLat,
+              lng: stopInput.placeLng,
+            });
+          }
+        }
+
+        waypoints.push({
+          lat: dropoffInput.placeLat,
+          lng: dropoffInput.placeLng,
+        });
+
+        if (waypoints.length < 2) return;
+
+        // Calculate distances between consecutive points
+        let totalDistance = 0;
+        let totalDuration = 0;
+
+        const calculateNextLeg = (startIndex) => {
+          if (startIndex >= waypoints.length - 1) {
+            // All segments calculated, update the UI
+            const distanceInKm = (totalDistance / 1000).toFixed(1);
+            const durationInHours = (totalDuration / 3600).toFixed(1);
+
+            document.getElementById("distance-info").style.display = "block";
+            document.getElementById(
+              "distance-value"
+            ).textContent = `${distanceInKm} km (approximately ${durationInHours} hours by car)`;
+          }
+
+          service.getDistanceMatrix(
+            {
+              origins: [waypoints[startIndex]],
+              destinations: [waypoints[startIndex + 1]],
+              travelMode: google.maps.TravelMode.DRIVING,
+              unitSystem: google.maps.UnitSystem.METRIC,
+            },
+            function (response, status) {
+              if (status === "OK") {
+                const distance = response.rows[0].elements[0].distance.value; // in meters
+                const duration = response.rows[0].elements[0].duration.value; // in seconds
+
+                totalDistance += distance;
+                totalDuration += duration;
+
+                if (startIndex + 2 < waypoints.length) {
+                  // Calculate next segment
+                  calculateNextLeg(startIndex + 1);
+                } else {
+                  // Final segment completed
+                  const distanceInKm = (totalDistance / 1000).toFixed(1);
+                  const durationInHours = (totalDuration / 3600).toFixed(1);
+
+                  document.getElementById("distance-info").style.display =
+                    "block";
+                  document.getElementById(
+                    "distance-value"
+                  ).textContent = `${distanceInKm} km (approximately ${durationInHours} hours by car)`;
+                }
+              }
+            }
+          );
+        };
+
+        // Start calculating first leg
+        calculateNextLeg(0);
+      }
+
+      // Set minimum date to today
+      const today = new Date().toISOString().split("T")[0];
+      document.getElementById("pickup-date").min = today;
+      document.getElementById("pickup-date").value = today;
+
+      // Set current time as default
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, "0");
+      const minutes = String(now.getMinutes()).padStart(2, "0");
+      document.getElementById("pickup-time").value = `${hours}:${minutes}`;
+
+      // Counter functionality
+      function updateCounter(id, change) {
+        const input = document.getElementById(id);
+        let value = parseInt(input.value);
+
+        if (id === "travellers") {
+          // Minimum 1 traveller
+          value = Math.max(1, value + change);
+        } else {
+          // Minimum 0 for kids and bags
+          value = Math.max(0, value + change);
+        }
+
+        input.value = value;
+      }
+
+      // Initialize map and autocomplete when Google Maps API loads
+      function initAutocomplete() {
+        initializeMap();
+        initializeAutocomplete();
+      }
+
+      // Initialize everything when page loads
+      document.addEventListener("DOMContentLoaded", function () {
+        // Add event listener for the Add Stop button
+        document
+          .getElementById("add-stop-btn")
+          .addEventListener("click", addStop);
+
+        // Add event listener for the continue button
+        document
+          .getElementById("continue-btn")
+          .addEventListener("click", bookRide);
+
+        // Validate date and time selections
+        document
+          .getElementById("pickup-date")
+          .addEventListener("change", function () {
+            if (this.value < today) {
+              alert("Please select a future date");
+              this.value = today;
+            }
+          });
+
+        document
+          .getElementById("pickup-time")
+          .addEventListener("change", function () {
+            const selectedDate = document.getElementById("pickup-date").value;
+            if (selectedDate === today) {
+              const currentTime = `${hours}:${minutes}`;
+              if (this.value < currentTime) {
+                alert("Please select a future time");
+                this.value = currentTime;
+              }
+            }
+          });
+
+        console.log("DOM fully loaded - all event listeners initialized");
+      });
+
+      function bookRide() {
+        // Get all the form data
+        const pickupDate = document.getElementById("pickup-date").value;
+        const pickupTime = document.getElementById("pickup-time").value;
+        const dateTime = new Date(pickupDate + "T" + pickupTime);
+
+        let payload = {
+          time: dateTime.toISOString(),
+          num_travelers: parseInt(document.getElementById("travellers").value),
+          num_kids: parseInt(document.getElementById("kids").value),
+          num_bags: parseInt(document.getElementById("bags").value),
+        };
+
+        if (activeTab === "transfer") {
+          // Get pickup and dropoff locations
+          const pickupInput = document.getElementById("pickup-location");
+          const dropoffInput = document.getElementById("dropoff-location");
+
+          // Get all stops
+          const stops = [];
+          for (let i = 0; i < stopCounter; i++) {
+            const stopInput = document.getElementById(`stop-location-${i}`);
+            if (stopInput && stopInput.value) {
+              stops.push({
+                location: stopInput.value,
+                order: i + 1,
+                lat: stopInput.placeLat,
+                lng: stopInput.placeLng,
+                location_type: "SEARCH",
+              });
+            }
+          }
+
+          // Get distance from the display
+          let distance = 0;
+          let duration = 0;
+          const distanceInfo =
+            document.getElementById("distance-value").textContent;
+
+          if (distanceInfo) {
+            const distanceMatch = distanceInfo.match(/(\d+\.?\d*)\s*km/);
+            const durationMatch = distanceInfo.match(/(\d+\.?\d*)\s*hours/);
+
+            if (distanceMatch) distance = parseFloat(distanceMatch[1]);
+            if (durationMatch) duration = parseFloat(durationMatch[1]) * 60; // Convert to minutes
+          }
+
+          // Add transfer-specific fields to payload
+          Object.assign(payload, {
+            ride_type: "TRANSFER",
+            starting_location: pickupInput.value,
+            starting_lat: pickupInput.placeLat,
+            starting_lng: pickupInput.placeLng,
+            starting_location_type: "SEARCH",
+            ending_location: dropoffInput.value,
+            ending_lat: dropoffInput.placeLat,
+            ending_lng: dropoffInput.placeLng,
+            ending_location_type: "SEARCH",
+            stops: stops,
+            distance: distance,
+            duration: duration,
+          });
+        } else {
+          // Hourly mode
+          const hourlyPickupInput = document.getElementById(
+            "hourly-pickup-location"
+          );
+          const numHours = parseInt(document.getElementById("num-hours").value);
+
+          // Add hourly-specific fields to payload
+          Object.assign(payload, {
+            ride_type: "HOURLY",
+            starting_location: hourlyPickupInput.value,
+            starting_lat: hourlyPickupInput.placeLat,
+            starting_lng: hourlyPickupInput.placeLng,
+            starting_location_type: "SEARCH",
+            time: parseInt(numHours),
+            ending_location: "-",
+          });
+        }
+
+        // Send the request to the backend
+        fetch("/book_a_ride/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCSRFToken(),
+          },
+          body: JSON.stringify(payload),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.redirect) {
+              window.location.href = window.location.origin + data.url;
+              return;
+            }
+
+            if (data.success) {
+              alert("Ride booked successfully!");
+              window.location.href = window.location.origin + data.url;
+            } else {
+              alert("Error booking ride: " + data.error);
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            alert(
+              "Error booking ride: " + (error.message || "Please try again")
+            );
+          });
+      }
+
+      // Helper function to get CSRF token from cookies
+      function getCSRFToken() {
+        const name = "csrftoken";
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== "") {
+          const cookies = document.cookie.split(";");
+          for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === name + "=") {
+              cookieValue = decodeURIComponent(
+                cookie.substring(name.length + 1)
+              );
+              break;
+            }
+          }
+        }
+        return cookieValue;
+      }
+    </script>
+  </body>
+</html>
