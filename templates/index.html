@@ -1,1369 +1,1952 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <!-- Basic -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Mobile Metas -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <!-- Site Metas -->
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
 
-<head>
-  <!-- Basic -->
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <!-- Mobile Metas -->
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <!-- Site Metas -->
-  <meta name="keywords" content="" />
-  <meta name="description" content="" />
-  <meta name="author" content="" />
+    <title>Palm Valley Transportation</title>
 
-  <title>Palm Valley Transportation</title>
- 
-  <!-- Owl Carousel CSS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+    <!-- Owl Carousel CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css"
+    />
 
-  <!-- Bootstrap Core CSS -->
-  {% load static %}
-  <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}" />
+    <!-- Bootstrap Core CSS -->
+    {% load static %}
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/bootstrap.css' %}"
+    />
 
-  <!-- Font Awesome Style -->
-  {% load static %}
-  <link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.min.css' %}" />
+    <!-- Font Awesome Style -->
+    {% load static %}
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/font-awesome.min.css' %}"
+    />
 
-  <!-- Custom Styles -->
-  {% load static %}
-  <link href="{% static 'css/style.css' %}" rel="stylesheet" />
-  <link href="{% static 'css/responsive.css' %}" rel="stylesheet" />
+    <!-- Custom Styles -->
+    {% load static %}
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/responsive.css' %}" rel="stylesheet" />
 
-<style>
-  .loader {
-    display: none;
-    text-align: center;
-    padding: 20px;
-    position: relative;
-    height: 60px;
-}
+    <style>
+      /* General Fixes */
+      body {
+        overflow-x: hidden;
+      }
 
-.car-loader {
-    position: relative;
-    width: 100%;
-    height: 40px;
-}
-
-.car {
-    position: absolute;
-    left: -60px;
-    width: 50px;
-    height: 30px;
-    background: #0355cc;
-    border-radius: 10px;
-    animation: carMove 2s linear infinite;
-}
-
-.car:before {
-    content: '';
-    position: absolute;
-    top: -10px;
-    left: 10px;
-    width: 30px;
-    height: 15px;
-    background: #0355cc;
-    border-radius: 20px 20px 0 0;
-}
-
-.car:after {
-    content: '';
-    position: absolute;
-    bottom: 4px;
-    left: 8px;
-    width: 8px;
-    height: 8px;
-    background: #333;
-    border-radius: 50%;
-    box-shadow: 28px 0 0 #333;
-}
-
-.road {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: #333;
-    animation: roadMove 0.5s linear infinite;
-}
-    .contact_section {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh; /* Full-screen height */
-      background-color: #ffffff; /* Optional background color */
-    }
-
-    .contact_wrapper {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      text-align: center;
-      max-width: 400px;
-      width: 100%;
-      padding: 20px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      border-radius: 10px;
-      background-color: #f9f9f9;
-    }
-
-    .contact_form h2 {
-      margin-bottom: 20px;
-      color: #000000;
-    }
-
-    .contact_form form {
-      width: 100%;
-    }
-
-    .contact_form input,
-    .contact_form textarea {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      font-size: 16px;
-    }
-
-    .contact_form button {
-      width: 100%;
-      padding: 10px;
-      background-color: #0355cc;
-      color: #ffffff;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    .contact_form button:hover {
-      background-color: #023e9d;
-    }
-@keyframes carMove {
-    0% {
-        transform: translateX(0);
-        left: -60px;
-    }
-    100% {
-        transform: translateX(calc(100% + 60px));
-        left: -60px;
-    }
-}
-
-@keyframes roadMove {
-    0% {
-        background: linear-gradient(90deg, #333 0px, #333 49px, transparent 50px, transparent 100%);
-        background-size: 50px 100%;
-        background-position: 0 0;
-    }
-    100% {
-        background: linear-gradient(90deg, #333 0px, #333 49px, transparent 50px, transparent 100%);
-        background-size: 50px 100%;
-        background-position: -50px 0;
-    }
-}
-
-.loader-text {
-    margin-top: 20px;
-    color: #0355cc;
-    font-size: 14px;
-}
-  .calculator_section {
-    position: relative;
-    padding: 90px 0;
-    background-color: #ffffff;
-}
-
-.calculator_section::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to right, #ffffff 50%, transparent 50%);
-    z-index: 0;
-}
-
-.calculator_box {
-    position: relative;
-    background-color: #ffffff;
-    padding: 45px;
-    border-radius: 0;
-    box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.15);
-    z-index: 1;
-}
-
-.heading_container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 45px;
-}
-
-.heading_container h2 {
-    position: relative;
-    font-weight: bold;
-    margin: 0;
-}
-
-.heading_container h2::before {
-    content: "";
-    position: absolute;
-    width: 50px;
-    height: 3px;
-    background: #0355cc
-    ;
-    left: 50%;
-    bottom: -15px;
-    transform: translateX(-50%);
-}
-
-.form_container {
-    margin-top: 35px;
-}
-
-.form-group {
-    margin-bottom: 25px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 12px;
-    color: #1f1f1f;
-    font-weight: 600;
-    font-size: 15px;
-}
-
-.form-control {
-    width: 100%;
-    padding: 12px 20px;
-    border: 1px solid #e4e4e4;
-    outline: none;
-    color: #1f1f1f;
-    height: 50px;
-    border-radius: 5px;
-    transition: all 0.3s;
-}
-
-.form-control:focus {
-    border-color: #0355cc;
-    box-shadow: 0 0 0 2px rgba(255, 79, 90, 0.1);
-}
-
-.submit_btn {
-    display: inline-block;
-    padding: 12px 45px;
-    background-color: #0355cc;
-    color: #ffffff;
-    border-radius: 5px;
-    border: 1px solid #0355cc;
-    transition: all 0.3s;
-    font-weight: 600;
-    width: 100%;
-    text-align: center;
-    text-transform: uppercase;
-    font-size: 15px;
-}
-
-.submit_btn:hover {
-    background-color: transparent;
-    color: #0355cc;
-}
-
-.book_btn {
-    background-color: #1f1f1f;
-    border-color: #1f1f1f;
-}
-
-.book_btn:hover {
-    color: #1f1f1f;
-}
-
-.result_box {
-    margin-top: 25px;
-    padding: 20px;
-    border-radius: 5px;
-    font-size: 15px;
-    line-height: 1.8;
-}
-
-.result_box.success {
-    background-color: rgba(76, 175, 80, 0.1);
-    border: 1px solid rgba(76, 175, 80, 0.2);
-    color: #4CAF50;
-}
-
-.result_box.error {
-    background-color: rgba(255, 79, 90, 0.1);
-    border: 1px solid rgba(255, 79, 90, 0.2);
-    color: #0355cc;
-}
-
-#book-btn-container {
-    margin-top: 25px;
-    opacity: 0;
-    transform: translateY(10px);
-    animation: fadeInUp 0.5s ease forwards;
-}
-
-@keyframes fadeInUp {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-select.form-control {
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%231f1f1f' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 15px center;
-    padding-right: 40px;
-}
-    .feature_section {
+      section {
         padding: 60px 0;
-        background-color: #ffffff; /* Optional background color */
-    }
+        position: relative;
+      }
 
-    .feature_container {
+      /* Hero Section Fixes */
+      .hero_area {
+        position: relative;
+        height: 100vh;
+        width: 100%;
+        overflow: hidden;
+      }
+
+      .slider_section {
+        height: 100vh;
+        width: 100%;
+        position: relative;
+        padding: 0;
         display: flex;
-        justify-content: space-around; /* Spread boxes evenly */
-        align-items: flex-start;
-        flex-wrap: wrap; /* Allow wrapping for responsiveness */
-        gap: 20px;
-        text-align: center;
-    }
-
-    .box {
-        flex: 1 1 calc(30% - 20px); /* Flexible width with a max of 30% */
-        max-width: 300px; /* Ensures boxes don't grow too large */
-        padding: 20px;
-        background-color: #f9f9f9; /* Box background color */
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease;
-    }
-
-    .box:hover {
-        transform: translateY(-5px); /* Subtle hover effect */
-    }
-
-    .img-box {
-        display: flex;
-        justify-content: center;
         align-items: center;
-        margin-bottom: 20px; /* Space below the icon */
-        height: 120px; /* Consistent height for all images */
-    }
+      }
 
-    .feature-icon {
-        width: 80px; /* Uniform width for icons */
-        height: 80px; /* Uniform height for icons */
-        object-fit: contain; /* Keep aspect ratio */
-    }
+      .slider_section video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 0;
+      }
 
-    .name {
-        font-size: 18px;
-        font-weight: bold;
-        color: #333;
-        margin-bottom: 10px;
-    }
+      .slider_section .container {
+        position: relative;
+        z-index: 1;
+      }
 
-    .description {
-        font-size: 14px;
-        color: #555;
+      .slider_section::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 0;
+      }
+
+      .slider_section .detail-box {
+        color: #ffffff;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        max-width: 600px;
+      }
+
+      .slider_section .detail-box h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+      }
+
+      .slider_section .detail-box p12 {
+        font-size: 1.2rem;
+        display: block;
+        margin-bottom: 30px;
         line-height: 1.6;
-    }
-    .slider_section {
-    position: relative;
-    background: url("{% static 'images/JaxDrone.mp4' %}") no-repeat center center/cover;
-  }
-    /* Styling for the main title (h1) */
-    .detail-box h1 {
-      font-family: 'Arial', sans-serif; /* Change the font */
-      font-size: 50px; /* Adjust the size */
-      font-weight: 7000; /* Bold weight */
-      color: #00FF00; /* Deep blue */
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow for better contrast */
-    }
+      }
 
-    /* Styling for the paragraph (p) */
-    .detail-box p {
-      font-family: 'Georgia', serif; /* Change the font */
-      font-size: 18px; /* Adjust the size */
-      font-weight: 400; /* Normal weight */
-      color: #000000; /* Dark gray for readability */
-      line-height: 1.8; /* Increase line spacing */
-      margin-top: 20px; /* Add spacing between the paragraph and title */
-    }
-    /* Styling for the paragraph inside .detail-box */
-    .detail-box p12 {
-        font-family: 'Arial', sans-serif; /* Change the font */
-                  font-size: 14px; /* Adjust the size */
-                  font-weight: 300; /* Normal weight */
-                  color: #FFFFFF; /* Dark gray for readability */
-                  line-height: 1.2; /* Increase line spacing */
-                  margin-top: 20px; /* Add spacing between the paragraph and title */
+      /* Section Spacing Fixes */
+      .feature_section,
+      .modern_about_section,
+      #services,
+      .testimonials_section,
+      .contact_section {
+        padding: 80px 0;
+        margin: 0;
+      }
+
+      /* Remove unnecessary spacers */
+      .section_spacer {
+        display: none;
+      }
+
+      /* Contact Section Improvements */
+      .contact_section {
+        background: linear-gradient(180deg, #f8faff 0%, #ffffff 100%);
+      }
+
+      .contact_form_container {
+        background-color: #ffffff;
+        padding: 40px;
+        border-radius: 16px;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.05);
+        border: 1px solid rgba(3, 85, 204, 0.1);
+        height: 100%;
+      }
+
+      .contact_section input,
+      .contact_section textarea,
+      .contact_section select {
+        color: #333333 !important;
+        background-color: #ffffff !important;
+        border: 1px solid #e4e4e4 !important;
+        border-radius: 10px;
+        padding: 15px 20px 15px 45px;
+        width: 100%;
+        margin-bottom: 15px;
+        font-size: 15px;
+        transition: all 0.3s;
+      }
+
+      .contact_section input:focus,
+      .contact_section textarea:focus,
+      .contact_section select:focus {
+        border-color: #0355cc !important;
+        box-shadow: 0 0 0 3px rgba(3, 85, 204, 0.1) !important;
+        outline: none;
+      }
+
+      .contact_section label {
+        display: block;
+        margin-bottom: 8px;
+        color: #333333 !important;
+        font-weight: 600;
+        font-size: 15px;
+      }
+
+      .contact_section .input_wrapper {
+        position: relative;
+      }
+
+      .contact_section .input_icon {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #0355cc;
+        font-size: 16px;
+      }
+
+      .contact_section .textarea_wrapper .input_icon {
+        top: 25px;
+        transform: none;
+      }
+
+      .contact_section .submit_btn {
+        width: 100%;
+        padding: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        background: linear-gradient(90deg, #0355cc, #00b4d8);
+        color: #ffffff;
+        border: none;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 16px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .contact_section .submit_btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(3, 85, 204, 0.2);
+      }
+
+      /* Fix for contact form text visibility */
+      .contact_section input::placeholder,
+      .contact_section textarea::placeholder {
+        color: #aaaaaa !important;
+        opacity: 1;
+      }
+
+      /* Responsive fixes */
+      @media (max-width: 768px) {
+        .slider_section .detail-box h1 {
+          font-size: 2.2rem;
         }
-  </style>
-<!-- <style>
-  .calculator_section {
-    background-color: #f8f9fa;
-    padding: 90px 0;
-  }
 
-  .calculator_box {
-    background-color: white;
-    padding: 40px;
-    border-radius: 15px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-  }
+        .slider_section .detail-box p12 {
+          font-size: 1rem;
+        }
 
-  .form_container {
-    margin-top: 30px;
-  }
+        .feature_section,
+        .modern_about_section,
+        #services,
+        .testimonials_section,
+        .contact_section {
+          padding: 60px 0;
+        }
 
-  .form-group {
-    margin-bottom: 25px;
-  }
+        .contact_form_container {
+          padding: 30px 20px;
+        }
+      }
 
-  .form-group label {
-    display: block;
-    margin-bottom: 8px;
-    color: #333;
-    font-weight: 500;
-  }
+      /* Animation for contact form */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
 
-  .form-control {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 16px;
-    transition: border-color 0.3s;
-  }
+      .contact_header,
+      .contact_info_card,
+      .contact_social,
+      .contact_form_container {
+        animation: fadeInUp 0.5s ease-out forwards;
+      }
 
-  .form-control:focus {
-    outline: none;
-    border-color: #4CAF50;
-    box-shadow: 0 0 5px rgba(76, 175, 80, 0.2);
-  }
+      /* Fix for testimonials slider */
+      .testimonials_slider {
+        position: relative;
+        z-index: 1;
+        max-width: 800px;
+        margin: 0 auto;
+        overflow: hidden;
+      }
+      .feature_section,
+      .modern_about_section,
+      #services,
+      .testimonials_section,
+      .contact_section {
+        padding: 60px 0;
+      }
+      .feature_section,
+      .modern_about_section,
+      #services,
+      .testimonials_section,
+      .contact_section {
+        padding: 80px 0;
+        margin: 0;
+      }
 
-  .submit_btn {
-    background-color: #4CAF50;
-    color: white;
-    padding: 15px 30px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    width: 100%;
-    transition: background-color 0.3s;
-  }
+      .testimonial_card {
+        flex: 0 0 100%;
+        max-width: 800px;
+        width: 100%;
+        margin: 0 auto;
+        background-color: #ffffff;
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.05);
+        position: relative;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(3, 85, 204, 0.08);
+      }
+      /* Add these styles to the style section */
 
-  .submit_btn:hover {
-    background-color: #45a049;
-  }
+      /* Benefits Section Styling */
+      .benefits-section {
+        padding: 80px 0;
+        background-color: #f8f9fa;
+        text-align: center;
+      }
 
-  .result_box {
-    margin-top: 20px;
-    padding: 15px;
-    border-radius: 5px;
-    display: none;
-  }
+      .benefits-section .section-title {
+        color: #0a2463;
+        font-size: 42px;
+        font-weight: 700;
+        margin-bottom: 15px;
+        text-align: center;
+      }
 
-  .result_box.success {
-    background-color: #dff0d8;
-    border: 1px solid #d6e9c6;
-    color: #3c763d;
-    display: block;
-  }
+      .benefits-section .blue-underline {
+        width: 80px;
+        height: 4px;
+        background: #0355cc;
+        margin: 0 auto 60px;
+        display: block;
+      }
 
-  .result_box.error {
-    background-color: #f2dede;
-    border: 1px solid #ebccd1;
-    color: #a94442;
-    display: block;
-  }
+      .benefits-card {
+        background: #ffffff;
+        border-radius: 15px;
+        padding: 40px 30px;
+        height: 100%;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+        text-align: left;
+      }
 
-  .pac-container {
-    z-index: 1051 !important;
-  }
-.description {
-  font-size: 14px;
+      .benefits-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 30px rgba(3, 85, 204, 0.1);
+      }
+
+      .benefits-icon-container {
+        width: 80px;
+        height: 80px;
+        background-color: #f0f7ff;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 25px;
+      }
+
+      .benefits-card h3 {
+        color: #0a2463;
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 15px;
+      }
+
+      .benefits-card p {
+        color: #555;
+        font-size: 16px;
+        line-height: 1.6;
+        margin-bottom: 30px;
+      }
+
+      .benefits-stats {
+        display: flex;
+        justify-content: space-between;
+        margin-top: auto;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+      }
+
+      .stat-item {
+        text-align: center;
+      }
+
+      .stat-value {
+        color: #0355cc;
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 5px;
+      }
+
+      .stat-label {
+        color: #777;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      /* About Section Styling */
+      .about-section {
+        padding: 80px 0;
+        background-color: #ffffff;
+      }
+
+      .about-container {
+        display: flex;
+        align-items: center;
+        gap: 50px;
+      }
+
+      .about-image-container {
+        flex: 1;
+        position: relative;
+      }
+
+      .about-image {
+        width: 100%;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .about-image img {
+        width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 15px;
+      }
+
+      .years-badge {
+        position: absolute;
+        bottom: -20px;
+        right: -20px;
+        background: #0355cc;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(3, 85, 204, 0.3);
+      }
+
+      .years-badge .years-value {
+        font-size: 24px;
+        font-weight: 700;
+        display: block;
+      }
+
+      .years-badge .years-label {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .about-content {
+        flex: 1;
+      }
+
+      .about-content h2 {
+        color: #0a2463;
+        font-size: 36px;
+        font-weight: 700;
+        margin-bottom: 15px;
+        position: relative;
+      }
+
+      .about-content .blue-underline {
+        width: 80px;
+        height: 4px;
+        background: #0355cc;
+        margin: 0 0 30px;
+        display: block;
+      }
+
+      .about-content p {
+        color: #555;
+        font-size: 16px;
+        line-height: 1.7;
+        margin-bottom: 20px;
+      }
+
+      .about-stats {
+        display: flex;
+        justify-content: space-between;
+        margin: 40px 0;
+      }
+
+      .about-stat-item {
+        text-align: center;
+        padding: 0 20px;
+        position: relative;
+      }
+
+      .about-stat-item:not(:last-child):after {
+        content: "";
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 70%;
+        width: 1px;
+        background: #eee;
+      }
+
+      .about-stat-value {
+        color: #0355cc;
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 5px;
+      }
+
+      .about-stat-label {
+        color: #777;
+        font-size: 14px;
+      }
+
+      .about-features {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        margin: 30px 0;
+      }
+
+      .feature-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .feature-item i {
+        color: #0355cc;
+        font-size: 16px;
+      }
+
+      .feature-item span {
+        color: #444;
+        font-size: 15px;
+        font-weight: 500;
+      }
+
+      .contact-btn {
+        display: inline-block;
+        background: #0355cc;
+        color: white;
+        padding: 12px 30px;
+        border-radius: 5px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+
+      .contact-btn:hover {
+        background: #023e9d;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(3, 85, 204, 0.2);
+      }
+
+      @media (max-width: 992px) {
+        .about-container {
+          flex-direction: column;
+        }
+
+        .about-image-container,
+        .about-content {
+          width: 100%;
+        }
+
+        .about-stats {
+          flex-wrap: wrap;
+        }
+
+        .about-stat-item {
+          width: 33.33%;
+          margin-bottom: 20px;
+        }
+
+        .about-stat-item:not(:last-child):after {
+          display: none;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .benefits-stats {
+          flex-direction: column;
+          gap: 15px;
+        }
+
+        .about-features {
+          grid-template-columns: 1fr;
+        }
+
+        .about-stats {
+          flex-direction: column;
+        }
+
+        .about-stat-item {
+          width: 100%;
+          padding: 10px 0;
+        }
+      }
+      .about-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.about-container {
+  position: relative;
+  z-index: 2;
+}
+
+.about-image-container {
+  position: relative;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+}
+
+.about-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.about-container:hover .about-image img {
+  transform: scale(1.05);
+}
+
+.years-badge {
+  position: absolute;
+  bottom: -20px;
+  right: -20px;
+  background: linear-gradient(135deg, #0355cc, #00b4d8);
+  color: white;
+  padding: 15px 25px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 10px 20px rgba(3, 85, 204, 0.3);
+  z-index: 3;
+}
+
+.about-content {
+  padding: 30px 0;
+}
+
+.about-content h2 {
+  color: #0a2463;
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.blue-underline {
+  width: 80px;
+  height: 4px;
+  background: #0355cc;
+  margin: 0 0 30px;
+  display: block;
+}
+
+.about-content p {
   color: #555;
-  margin-top: 10px;
+  font-size: 16px;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.about-stats {
+  display: flex;
+  justify-content: space-between;
+  margin: 40px 0;
+  flex-wrap: wrap;
+}
+
+.about-stat-item {
+  text-align: center;
+  padding: 0 20px;
+  position: relative;
+  flex: 1;
+  min-width: 120px;
+  margin-bottom: 20px;
+}
+
+.about-stat-value {
+  color: #0355cc;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.about-stat-label {
+  color: #777;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.contact-btn {
+  display: inline-block;
+  background: linear-gradient(90deg, #0355cc, #00b4d8);
+  color: white;
+  padding: 12px 30px;
+  border-radius: 5px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.contact-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(3, 85, 204, 0.2);
+}
+
+@media (max-width: 992px) {
+  .about-container {
+    flex-direction: column;
+  }
+  
+  .about-image-container,
+  .about-content {
+    width: 100%;
+  }
+  
+  .about-stats {
+    justify-content: center;
+  }
+  
+  .about-stat-item {
+    width: 33.33%;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-stat-item {
+    width: 50%;
+  }
+}
+
+@media (max-width: 576px) {
+  .about-stat-item {
+    width: 100%;
+  }
+}
+ /* Add these styles to fix the testimonials section */
+    .testimonials_section {
+      background-color: #f8f9fa;
+      padding: 80px 0;
+    }
+
+    .testimonials_header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .section_tag {
+      color: #0355cc;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 14px;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .testimonials_header h2 {
+      color: #0a2463;
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+
+    .header_line {
+      width: 80px;
+      height: 4px;
+      background: #0355cc;
+      margin: 0 auto 30px;
+    }
+
+    .testimonial_card {
+      background-color: #ffffff;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.05);
+      position: relative;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(3, 85, 204, 0.08);
+      margin: 0 auto;
+      max-width: 800px;
+    }
+
+    .quote_icon {
+      position: absolute;
+      top: 30px;
+      left: 40px;
+      opacity: 0.2;
+    }
+
+    .testimonial_content {
+      margin-top: 30px;
+      margin-bottom: 30px;
+      font-size: 18px;
+      line-height: 1.7;
+      color: #333;
+      position: relative;
+      z-index: 1;
+    }
+
+    .testimonial_author {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .author_image {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .author_image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .author_glow {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      box-shadow: 0 0 20px rgba(3, 85, 204, 0.3);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .testimonial_card:hover .author_glow {
+      opacity: 1;
+    }
+
+    .author_info h4 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 5px;
+      color: #0a2463;
+    }
+
+    .rating {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      margin-bottom: 5px;
+    }
+
+    .rating i {
+      color: #ffc107;
+      font-size: 14px;
+    }
+
+    .rating_text {
+      margin-left: 5px;
+      font-weight: 600;
+      color: #0a2463;
+    }
+
+    .author_type {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .testimonial_controls {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 30px;
+      gap: 20px;
+    }
+
+    .slider_dots {
+      display: flex;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: #ddd;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .dot.active {
+      background-color: #0355cc;
+      transform: scale(1.2);
+    }
+
+    .slider_arrows {
+      display: flex;
+      gap: 15px;
+    }
+
+    .arrow {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #fff;
+      border: 1px solid #eee;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: #0355cc;
+    }
+
+    .arrow:hover {
+      background-color: #0355cc;
+      color: #fff;
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(3, 85, 204, 0.2);
+    }
+
+    .trust_indicators {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 50px;
+      flex-wrap: wrap;
+    }
+
+    .trust_item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .trust_icon {
+      color: #0355cc;
+      font-size: 18px;
+    }
+
+    .trust_text {
+      font-size: 14px;
+      font-weight: 600;
+      color: #555;
+    }
+    .services_section {
+  padding: 80px 0;
+  background-color: #f8f9fa;
+  position: relative;
+  overflow: hidden;
+}
+
+.services_header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.section_tag {
+  color: #0355cc;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 14px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.services_header h2 {
+  color: #0a2463;
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.header_line {
+  width: 80px;
+  height: 4px;
+  background: #0355cc;
+  margin: 0 auto 30px;
+}
+
+.services_container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.service_card {
+  background-color: #ffffff;
+  border-radius: 20px;
+  padding: 40px 30px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(3, 85, 204, 0.08);
+  width: 100%;
+  max-width: 350px;
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.service_card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(3, 85, 204, 0.1);
+}
+
+.service_icon_container {
+  width: 80px;
+  height: 80px;
+  background-color: #f0f7ff;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 25px;
+  position: relative;
+  z-index: 1;
+}
+
+.service_icon_container img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
+
+.service_card h3 {
+  color: #0a2463;
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  position: relative;
+  z-index: 1;
+}
+
+.service_card p {
+  color: #555;
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 30px;
+  position: relative;
+  z-index: 1;
+  flex-grow: 1;
+}
+
+.service_stats {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+  position: relative;
+  z-index: 1;
+}
+
+.service_stat {
   text-align: center;
 }
-.feature_container {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+
+.stat_value {
+  color: #0355cc;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.stat_label {
+  color: #777;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.featured_badge {
+  position: absolute;
+  top: 20px;
+  right: -30px;
+  background: linear-gradient(90deg, #0355cc, #00b4d8);
+  color: white;
+  padding: 5px 30px;
+  transform: rotate(45deg);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  box-shadow: 0 5px 10px rgba(3, 85, 204, 0.2);
+  z-index: 2;
+}
+
+@media (max-width: 992px) {
+  .services_container {
     gap: 20px;
-    text-align: center;
-    margin-top: 40px;
+  }
+  
+  .service_card {
+    max-width: 300px;
+  }
 }
 
-.box {
-    flex: 1;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-}
-
-.box:hover {
-    transform: translateY(-5px);
-}
-
-.img-box {
-    display: flex;
-    justify-content: center;
+@media (max-width: 768px) {
+  .services_container {
+    flex-direction: column;
     align-items: center;
-    margin-bottom: 20px;
+  }
+  
+  .service_card {
+    max-width: 100%;
+    width: 100%;
+  }
 }
+    </style>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="hero_area">
+      <!-- header section strats -->
+      {% include 'header.html' with page_title="Custom Page Title" %}
+      <!-- end header section -->
+      <!-- slider section -->
+      <section class="slider_section">
+        <!-- Background Video -->
+        <video autoplay muted loop playsinline>
+          <source src="{% static 'images/JaxDrone.mp4' %}" type="video/mp4" />
+        </video>
 
-.feature-icon {
-    width: 100px; /* Uniform width for all icons */
-    height: 100px; /* Uniform height for all icons */
-    object-fit: contain; /* Maintain aspect ratio */
-}
-
-.name {
-    font-size: 20px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 10px;
-}
-
-.description {
-    font-size: 16px;
-    color: #555;
-    line-height: 1.6;
-}
-</style> -->
-</head>
-
-<body>
-  <div class="hero_area">
-    <!-- header section strats -->
-    {% include 'header.html' with page_title="Custom Page Title" %}
-    <!-- end header section -->
-    <!-- slider section -->
-    <section class="slider_section" style="height: 100vh; position: relative; overflow: hidden;">
-      <!-- Background Image -->
-      <video autoplay muted loop playsinline style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;">
-              <source src="{% static 'images/JaxDrone.mp4' %}" type="video/mp4">
-              <!-- Fallback background image -->
-              
-            </video>
-
-      <!-- Content -->
+        <!-- Content -->
+        <div class="container">
+          <div class="row">
+            <div class="col-md-7">
+              <div class="detail-box">
+                <h1>
+                  Premium Private Transportation <br />
+                  Services in Florida
+                </h1>
+                <p12>
+                  Reliable, luxurious, and tailored rides for your every need –
+                  airport transfers, event charters, and corporate commutes.
+                  Experience Jacksonville in comfort and style.
+                </p12>
+                <div class="mt-4">
+                  <a href="{% url 'bookridepage' %}" class="btn btn-primary">
+                    <i class="fa fa-car mr-2"></i> Book a Ride
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <!-- Replace the Feature Section with this updated Benefits Section -->
+    <section class="benefits-section" id="features">
       <div class="container">
+        <h2 class="section-title">OUR BENEFITS</h2>
+        <h2 class="section-title">Why Choose Palm Valley</h2>
+        <span class="blue-underline"></span>
+
         <div class="row">
-          <div class="col-md-6">
-            <div class="detail-box">
-              <h1>
-                Premium Private Transportation <br>
-                Services in Florida
-              </h1>
-              <p12>
-                Reliable, luxurious, and tailored rides for your every need – airport transfers, event charters, and corporate commutes. Experience Jacksonville in comfort and style.
-              </p12>
-              <a href="{% url 'bookridepage' %}" class="btn btn-primary">
-                Book a Ride
-              </a>
+          <!-- Safety Card -->
+          <div class="col-md-4 mb-4">
+            <div class="benefits-card">
+              <div class="benefits-icon-container">
+                <img
+                  src="{% static 'images/safest.png' %}"
+                  alt="Safety Icon"
+                  width="50"
+                  height="50"
+                />
+              </div>
+              <h3>Maximum Safety</h3>
+              <p>
+                Vetted drivers, real-time tracking, and regularly inspected
+                vehicles ensure your journey is secure at every turn.
+              </p>
+              <div class="benefits-stats">
+                <div class="stat-item">
+                  <div class="stat-value">100%</div>
+                  <div class="stat-label">BACKGROUND CHECKED</div>
+                </div>
+                <div class="stat-item">
+                  <div class="stat-value">24/7</div>
+                  <div class="stat-label">LIVE SUPPORT</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Premium Experience Card -->
+          <div class="col-md-4 mb-4">
+            <div class="benefits-card">
+              <div class="benefits-icon-container">
+                <img
+                  src="{% static 'images/comfort.png' %}"
+                  alt="Comfort Icon"
+                  width="50"
+                  height="50"
+                />
+              </div>
+              <h3>Premium Experience</h3>
+              <p>
+                Luxurious vehicles with climate control, complimentary
+                refreshments, and personalized amenities for unmatched comfort.
+              </p>
+              <div class="benefits-stats">
+                <div class="stat-item">
+                  <div class="stat-value">4.9</div>
+                  <div class="stat-label">CUSTOMER RATING</div>
+                </div>
+                <div class="stat-item">
+                  <div class="stat-value">99%</div>
+                  <div class="stat-label">ON-TIME ARRIVAL</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Expert Chauffeurs Card -->
+          <div class="col-md-4 mb-4">
+            <div class="benefits-card">
+              <div class="benefits-icon-container">
+                <img
+                  src="{% static 'images/trusted.png' %}"
+                  alt="Trust Icon"
+                  width="50"
+                  height="50"
+                />
+              </div>
+              <h3>Expert Chauffeurs</h3>
+              <p>
+                Professional, courteous drivers with extensive local knowledge
+                to ensure your journey is seamless and enjoyable.
+              </p>
+              <div class="benefits-stats">
+                <div class="stat-item">
+                  <div class="stat-value">10+</div>
+                  <div class="stat-label">YEARS EXPERIENCE</div>
+                </div>
+                <div class="stat-item">
+                  <div class="stat-value">5★</div>
+                  <div class="stat-label">SERVICE QUALITY</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </section>
-    <!-- end slider section -->
-  </div>
 
-  <!-- feature section -->
-  <section class="feature_section">
+    <!-- Replace the About Section with this updated version -->
+    <section class="about-section" id="about">
       <div class="container">
-          <div class="feature_container">
-              <!-- Safest Rides -->
-              <div class="box">
-                  <div class="img-box">
-                      <img src="{% static 'images/safest.png' %}" alt="Safest Rides" class="feature-icon" />
-                  </div>
-                  <h5 class="name">Safest Rides</h5>
-                  <p class="description">
-                      Your safety is our top priority. Our vehicles are regularly inspected, and all drivers are trained professionals to ensure you arrive at your destination securely.
-                  </p>
+        <div class="about-container">
+          <!-- Left Column - Image -->
+          <div class="about-image-container">
+            <div class="about-image">
+              <img
+                src="{% static 'images/headshot2.png' %}"
+                alt="Palm Valley Transportation Team"
+              />
+            </div>
+            <div class="years-badge">
+              <span class="years-value">10+</span>
+              <span class="years-label">YEARS OF EXCELLENCE</span>
+            </div>
+          </div>
+
+          <!-- Right Column - Content -->
+          <div class="about-content">
+  <h2>Your Journey Matters To Us</h2>
+  <span class="blue-underline"></span>
+  
+  <p>At Palm Valley Transportation, we believe every journey should feel personal and exceptional.</p>
+  
+  <p>Our mission is to provide you with a seamless and comfortable ride, whether it's to the airport, a special event, or just around town. We're more than just transportation – we're a family who genuinely cares about your experience, your safety, and your time.</p>
+  
+  <p>Let us take the stress out of travel and help you reach your destination with ease and peace of mind. We serve the entire Jacksonville area with pride and dedication to excellence.</p>
+  
+  <div class="about-stats">
+    <div class="about-stat-item">
+      <div class="about-stat-value">5000+</div>
+      <div class="about-stat-label">HAPPY CUSTOMERS</div>
+    </div>
+    <div class="about-stat-item">
+      <div class="about-stat-value">1M+</div>
+      <div class="about-stat-label">MILES DRIVEN</div>
+    </div>
+    <div class="about-stat-item">
+      <div class="about-stat-value">100%</div>
+      <div class="about-stat-label">SATISFACTION</div>
+    </div>
+  </div>
+  
+  <a href="#contact" class="contact-btn">CONTACT US TODAY</a>
+</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section - Redesigned to match Benefits Section -->
+    
+    <!-- Enhanced Testimonials Section -->
+    <section class="testimonials_section" id="testimonials">
+      <div class="container">
+        <div class="testimonials_header">
+          <span class="section_tag">Client Experiences</span>
+          <h2>What Our Clients Say</h2>
+          <div class="header_line"></div>
+        </div>
+
+        <div class="testimonials_slider">
+          <!-- Testimonial Slides Container -->
+          <div class="testimonials_container">
+            <!-- Testimonial 1 -->
+            <div class="testimonial_card" data-index="1">
+              <div class="quote_icon">
+                <svg
+                  width="48"
+                  height="48"
+                  viewBox="0 0 48 48"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M14.4 24H8V32H16V40H8C5.87827 40 3.84344 39.1571 2.34315 37.6569C0.842855 36.1566 0 34.1217 0 32V24C0 21.8783 0.842855 19.8434 2.34315 18.3431C3.84344 16.8429 5.87827 16 8 16H12C13.0609 16 14.0783 16.4214 14.8284 17.1716C15.5786 17.9217 16 18.9391 16 20V28C16 29.0609 15.5786 30.0783 14.8284 30.8284C14.0783 31.5786 13.0609 32 12 32H10.4L14.4 24ZM38.4 24H32V32H40V40H32C29.8783 40 27.8434 39.1571 26.3431 37.6569C24.8429 36.1566 24 34.1217 24 32V24C24 21.8783 24.8429 19.8434 26.3431 18.3431C27.8434 16.8429 29.8783 16 32 16H36C37.0609 16 38.0783 16.4214 38.8284 17.1716C39.5786 17.9217 40 18.9391 40 20V28C40 29.0609 39.5786 30.0783 38.8284 30.8284C38.0783 31.5786 37.0609 32 36 32H34.4L38.4 24Z"
+                    fill="rgba(3, 85, 204, 0.1)"
+                  />
+                </svg>
               </div>
 
-              <!-- Trusted Drivers -->
-              <div class="box">
-                  <div class="img-box">
-                      <img src="{% static 'images/trusted.png' %}" alt="Trusted Drivers" class="feature-icon" />
-                  </div>
-                  <h5 class="name">Trusted Drivers</h5>
-                  <p class="description">
-                      Every driver is vetted and background-checked to provide a reliable and trustworthy experience. Sit back and enjoy your ride with peace of mind.
-                  </p>
+              <div class="testimonial_content">
+                <p>
+                  Trust me, this company is hands down the best out there. You
+                  won't regret choosing their service—I guarantee it! Their
+                  attention to detail and professionalism made my experience
+                  truly exceptional.
+                </p>
               </div>
 
-              <!-- Exceptional Comfort -->
-              <div class="box">
-                  <div class="img-box">
-                      <img src="{% static 'images/comfort.png' %}" alt="Exceptional Comfort" class="feature-icon" />
+              <div class="testimonial_author">
+                <div class="author_image">
+                  <img
+                    src="{% static 'images/client-1.jpg' %}"
+                    alt="Robert Evans"
+                  />
+                  <div class="author_glow"></div>
+                </div>
+                <div class="author_info">
+                  <h4>Robert Evans</h4>
+                  <div class="rating">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <span class="rating_text">5.0</span>
                   </div>
-                  <h5 class="name">Exceptional Comfort</h5>
-                  <p class="description">
-                      Experience the luxury of modern, well-maintained vehicles with plush seating, climate control, and amenities designed for your comfort.
-                  </p>
+                  <span class="author_type">Business Executive</span>
+                </div>
               </div>
+            </div>
+
+            <!-- Testimonial 2 -->
+            <div class="testimonial_card" data-index="2">
+              <div class="quote_icon">
+                <svg
+                  width="48"
+                  height="48"
+                  viewBox="0 0 48 48"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M14.4 24H8V32H16V40H8C5.87827 40 3.84344 39.1571 2.34315 37.6569C0.842855 36.1566 0 34.1217 0 32V24C0 21.8783 0.842855 19.8434 2.34315 18.3431C3.84344 16.8429 5.87827 16 8 16H12C13.0609 16 14.0783 16.4214 14.8284 17.1716C15.5786 17.9217 16 18.9391 16 20V28C16 29.0609 15.5786 30.0783 14.8284 30.8284C14.0783 31.5786 13.0609 32 12 32H10.4L14.4 24ZM38.4 24H32V32H40V40H32C29.8783 40 27.8434 39.1571 26.3431 37.6569C24.8429 36.1566 24 34.1217 24 32V24C24 21.8783 24.8429 19.8434 26.3431 18.3431C27.8434 16.8429 29.8783 16 32 16H36C37.0609 16 38.0783 16.4214 38.8284 17.1716C39.5786 17.9217 40 18.9391 40 20V28C40 29.0609 39.5786 30.0783 38.8284 30.8284C38.0783 31.5786 37.0609 32 36 32H34.4L38.4 24Z"
+                    fill="rgba(3, 85, 204, 0.1)"
+                  />
+                </svg>
+              </div>
+
+              <div class="testimonial_content">
+                <p>
+                  As a mom traveling with my baby, I felt completely at ease
+                  using Palm Valley Transportation. The drivers were caring and
+                  professional, and the ride was smooth and safe. I couldn't ask
+                  for a better experience!
+                </p>
+              </div>
+
+              <div class="testimonial_author">
+                <div class="author_image">
+                  <img
+                    src="{% static 'images/babynmom.jpg' %}"
+                    alt="Jane Smith"
+                  />
+                  <div class="author_glow"></div>
+                </div>
+                <div class="author_info">
+                  <h4>Jane Smith</h4>
+                  <div class="rating">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <span class="rating_text">5.0</span>
+                  </div>
+                  <span class="author_type">Family Traveler</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Testimonial 3 -->
+            <div class="testimonial_card" data-index="3">
+              <div class="quote_icon">
+                <svg
+                  width="48"
+                  height="48"
+                  viewBox="0 0 48 48"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M14.4 24H8V32H16V40H8C5.87827 40 3.84344 39.1571 2.34315 37.6569C0.842855 36.1566 0 34.1217 0 32V24C0 21.8783 0.842855 19.8434 2.34315 18.3431C3.84344 16.8429 5.87827 16 8 16H12C13.0609 16 14.0783 16.4214 14.8284 17.1716C15.5786 17.9217 16 18.9391 16 20V28C16 29.0609 15.5786 30.0783 14.8284 30.8284C14.0783 31.5786 13.0609 32 12 32H10.4L14.4 24ZM38.4 24H32V32H40V40H32C29.8783 40 27.8434 39.1571 26.3431 37.6569C24.8429 36.1566 24 34.1217 24 32V24C24 21.8783 24.8429 19.8434 26.3431 18.3431C27.8434 16.8429 29.8783 16 32 16H36C37.0609 16 38.0783 16.4214 38.8284 17.1716C39.5786 17.9217 40 18.9391 40 20V28C40 29.0609 39.5786 30.0783 38.8284 30.8284C38.0783 31.5786 37.0609 32 36 32H34.4L38.4 24Z"
+                    fill="rgba(3, 85, 204, 0.1)"
+                  />
+                </svg>
+              </div>
+
+              <div class="testimonial_content">
+                <p>
+                  I book all my rides with this service and have never had an
+                  issue. They are reliable, affordable, and even cheaper than
+                  other ride-sharing companies. The drivers are always punctual
+                  and knowledgeable about the area.
+                </p>
+              </div>
+
+              <div class="testimonial_author">
+                <div class="author_image">
+                  <img
+                    src="{% static 'images/client-2.jpg' %}"
+                    alt="Michael Lee"
+                  />
+                  <div class="author_glow"></div>
+                </div>
+                <div class="author_info">
+                  <h4>Michael Lee</h4>
+                  <div class="rating">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <span class="rating_text">5.0</span>
+                  </div>
+                  <span class="author_type">Frequent Traveler</span>
+                </div>
+              </div>
+            </div>
           </div>
-      </div>
-  </section>
-  <!-- Background video---->
 
-  <!-- end feature section -->
-
-  <!-- about section -->
-
-  <section class="about_section layout_padding-bottom">
-    <div class="container">
-      <div class="heading_container heading_center">
-        <h2>About us</h2>
-      </div>
-      <div class="row">
-        <div class="col-lg-5 col-md-6">
-          <div class="detail-box">
-            
-            <p>
-            At Palm Valley Transportation, we believe every journey should feel personal. Our mission is to provide you with a seamless and comfortable ride, whether it’s to the airport, a special event, or just around town. We’re more than just transportation – we’re a family who genuinely cares about your experience, your safety, and your time. Let us take the stress out of travel and help you reach your destination with ease and peace of mind. Your journey matters to us, because you matter to us.
-            </p>
-           
-            
+          <!-- Navigation Controls -->
+          <div class="testimonial_controls">
+            <div class="slider_dots">
+              <span class="dot active" data-slide="1"></span>
+              <span class="dot" data-slide="2"></span>
+              <span class="dot" data-slide="3"></span>
+            </div>
+            <div class="slider_arrows">
+              <button class="arrow prev" aria-label="Previous testimonial">
+                <i class="fa fa-chevron-left"></i>
+              </button>
+              <button class="arrow next" aria-label="Next testimonial">
+                <i class="fa fa-chevron-right"></i>
+              </button>
+            </div>
           </div>
         </div>
-        <div class="col-lg-7 col-md-6">
-          <div class="img-box">
-              <img src="{% static 'images/headshot2.png' %}" alt="About Us Image">
-            <!-- <img src="images/about-img.jpg" alt=""> -->
+
+        <!-- Trust Indicators -->
+        <div class="trust_indicators">
+          <div class="trust_item">
+            <div class="trust_icon">
+              <i class="fa fa-check-circle"></i>
+            </div>
+            <div class="trust_text">
+              <span>100% Verified Reviews</span>
+            </div>
+          </div>
+          <div class="trust_item">
+            <div class="trust_icon">
+              <i class="fa fa-trophy"></i>
+            </div>
+            <div class="trust_text">
+              <span>4.9/5 Average Rating</span>
+            </div>
+          </div>
+          <div class="trust_item">
+            <div class="trust_icon">
+              <i class="fa fa-users"></i>
+            </div>
+            <div class="trust_text">
+              <span>5,000+ Happy Clients</span>
+            </div>
           </div>
         </div>
       </div>
+    </section>
+<section class="services_section" id="services">
+  <div class="container">
+    <div class="services_header">
+      <span class="section_tag">What We Offer</span>
+      <h2>Our Services</h2>
+      <div class="header_line"></div>
     </div>
-  </section>
 
-  <!-- end about section -->
-
-
-<!-- service section -->
-
-<section class="service_section layout_padding" >
-  <div class="container ">
-    <div class="heading_container heading_center">
-      <h2> Our Services </h2>
-    </div>
-    <div class="row">
-      <div class="col-sm-6 col-md-4 mx-auto">
-        <div class="box" >
-          <div class="img-box">
-            <img src="{% static 'images/airplane1.png' %}" alt="Maintenance service icon">
-            <!-- <img src="images/s1.png" alt="" /> -->
+    <div class="services_container">
+      <!-- Airport Transfers Card -->
+      <div class="service_card">
+        <div class="service_icon_container">
+          <img src="{% static 'images/airplane1.png' %}" alt="Airport Transfer Icon">
+        </div>
+        <h3>Airport Transfers</h3>
+        <p>Hassle-free, punctual, and comfortable rides to and from the airport. We ensure your journey starts and ends smoothly.</p>
+        <div class="service_stats">
+          <div class="service_stat">
+            <div class="stat_value">24/7</div>
+            <div class="stat_label">Availability</div>
           </div>
-          <div class="detail-box">
-            <h5>
-                Airport Transfers
-            </h5>
-            <p>
-            Hassle-free, punctual, and comfortable rides to and from the airport. We ensure your journey starts and ends smoothly, with no stress about timing or logistics
-            </p>
+          <div class="service_stat">
+            <div class="stat_value">100%</div>
+            <div class="stat_label">On-Time</div>
           </div>
         </div>
       </div>
-      <div class="col-sm-6 col-md-4 mx-auto">
-        <div class="box " >
-          <div class="img-box">
-            <img src="{% static 'images/event.png' %}" alt="Maintenance service icon">
-            <!-- <img src="images/s2.png" alt="" /> -->
+
+      <!-- Event Charters Card -->
+      <div class="service_card">
+        <div class="featured_badge">POPULAR</div>
+        <div class="service_icon_container">
+          <img src="{% static 'images/event.png' %}" alt="Event Charter Icon">
+        </div>
+        <h3>Event Charters</h3>
+        <p>Reliable and luxurious transportation for your special events. Whether it's a wedding, concert, or corporate event, we've got you covered.</p>
+        <div class="service_stats">
+          <div class="service_stat">
+            <div class="stat_value">5★</div>
+            <div class="stat_label">Customer Rating</div>
           </div>
-          <div class="detail-box">
-            <h5>
-                Event Charters
-            </h5>
-            <p>
-            Reliable and luxurious transportation for your special events. Whether it’s a wedding, concert, or gathering, we’ll get you there in style and comfort
-            </p>
+          <div class="service_stat">
+            <div class="stat_value">30+</div>
+            <div class="stat_label">Event Types</div>
           </div>
         </div>
       </div>
-      <div class="col-sm-6 col-md-4 mx-auto">
-        <div class="box ">
-          <div class="img-box">
-            <img src="{% static 'images/taxi.png' %}" alt="Maintenance service icon">
-            <!-- <img src="images/s3.png" alt="" /> -->
+
+      <!-- Corporate Commutes Card -->
+      <div class="service_card">
+        <div class="service_icon_container">
+          <img src="{% static 'images/taxi.png' %}" alt="Corporate Commute Icon">
+        </div>
+        <h3>Corporate Commutes</h3>
+        <p>Professional and efficient transportation solutions for your business needs. Focus on what matters while we handle the logistics.</p>
+        <div class="service_stats">
+          <div class="service_stat">
+            <div class="stat_value">15+</div>
+            <div class="stat_label">Corporate Partners</div>
           </div>
-          <div class="detail-box">
-            <h5>
-                Corporate Commutes
-            </h5>
-            <p>
-            Professional and efficient transportation solutions for your business needs. Focus on what matters while we handle your daily commutes or corporate events
-            </p>
+          <div class="service_stat">
+            <div class="stat_value">99%</div>
+            <div class="stat_label">Client Satisfaction</div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="btn-box">
-      <a href="#calculatorSection">
-        Request A Ride
-      </a>
     </div>
   </div>
 </section>
 
-<!-- end service section -->
-
-  <!-- professional section -->
-
-  <section class="calculator_section layout_padding" id="calculatorSection" style="background-color: #ffffff;">
-    <!-- <div class="container">
-      <div class="heading_container heading_center">
-        <h2>Book a ride with us</h2>
-      </div>
-      <div class="row">
-        <div class="col-md-8 mx-auto">
-          <div class="calculator_box">
-            <form id="distance-form">
-              {% csrf_token %}
-              <div class="form_container">
-                <div class="form-group">
-                  <label>From:</label>
-                  <input type="text" id="from" class="form-control" placeholder="Enter starting location" required>
-                </div>
-                <div class="form-group">
-                  <label>To:</label>
-                  <input type="text" id="to" class="form-control" placeholder="Enter destination" required>
-                </div>
-                <div class="form-group">
-                  <div class="row">
-                    <div class="col-md-6">
-                      <label>Date:</label>
-                      <input type="date" id="journey-date" class="form-control" required>
-                    </div>
-                    <div class="col-md-6">
-                      <label>Time:</label>
-                      <input type="time" id="journey-time" class="form-control" required>
-                    </div>
-                  </div>
-                </div>
-                <div class="btn-box" id="calculate-btn-container">
-                  <button type="button" onclick="calculateDistance()" class="submit_btn">Calculate Distance</button>
-                </div>
-                <div class="btn-box" id="book-btn-container" style="display: none;">
-                  <button type="button" onclick="bookRide()" class="submit_btn book_btn">Book Ride Now</button>
-                </div>
-                <div class="loader" id="loader">
-                  <div class="car-loader">
-                      <div class="car"></div>
-                      <div class="road"></div>
-                  </div>
-                  <div class="loader-text">Calculating distance...</div>
-              </div>
-                <div id="result" class="result_box"></div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div> -->
-    <!-- In your index.html -->
-
-  </section>
-  <!-- end professional section -->
-
-  
-
-  <section class="client_section ">
-    <div class="container">
-      <div class="heading_container heading_center">
-        <h2>What Our Clients Say</h2>
-      </div>
-      <div class="carousel-wrap layout_padding2-top">
-        <div class="owl-carousel">
-          <div class="item">
-            <div class="box">
-              <div class="client_id">
-                <div class="img-box">
-                  <img src="{% static 'images/client-1.jpg' %}" alt="Client testimonial image">
-                </div>
-                <div class="client_detail">
-                  <div class="client_info">
-                    <h6>Robert Evans</h6>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                  </div>
-                  <i class="fa fa-quote-left" aria-hidden="true"></i>
-                </div>
-              </div>
-              <div class="client_text">
-                <p>
-                Trust me, this company is hands down the best out there. You won’t regret choosing their service—I guarantee it!
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="box">
-              <div class="client_id">
-                <div class="img-box">
-                  <img src="{% static 'images/babynmom.jpg' %}" alt="Client testimonial image">
-                </div>
-                <div class="client_detail">
-                  <div class="client_info">
-                    <h6>Jane Smith</h6>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                  </div>
-                  <i class="fa fa-quote-left" aria-hidden="true"></i>
-                </div>
-              </div>
-              <div class="client_text">
-                <p>
-                <p>
-                   As a mom traveling with my baby, I felt completely at ease using Palm Valley Transportation. The drivers were caring and professional, and the ride was smooth and safe. I couldn’t ask for a better experience!
-                </p>
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="box">
-              <div class="client_id">
-                <div class="img-box">
-                  <img src="{% static 'images/client-2.jpg' %}" alt="Client testimonial image">
-                </div>
-                <div class="client_detail">
-                  <div class="client_info">
-                    <h6>Michael Lee</h6>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                  </div>
-                  <i class="fa fa-quote-left" aria-hidden="true"></i>
-                </div>
-              </div>
-              <div class="client_text">
-                <p>
-                I book all my rides with this service and have never had an issue. They are reliable, affordable, and even cheaper than other ride-sharing companies
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-  </section>
-
-  <!-- end client section -->
-
-  <section class="contact_section layout_padding">
+    <!-- Improved Contact Us Section -->
+    <section class="contact_section" id="contact">
       <div class="container">
-        <div class="heading_container">
-          <h2>
-            Contact Us
-          </h2>
+        <div class="contact_header text-center">
+          <span class="section_tag">Get In Touch</span>
+          <h2>Contact Us</h2>
+          <div class="header_line"></div>
+          <p class="contact_subheading">
+            We're here to help with your transportation needs. Reach out to us
+            for any questions or to schedule a ride.
+          </p>
         </div>
+
         <div class="row">
-          <div class="col-md-6">
-            <form action="">
-              <div>
-                <input type="text" placeholder="Name" />
+          <div class="col-lg-5 col-md-6">
+            <!-- Contact Info Cards -->
+            <div class="contact_info_container">
+              <!-- Phone Card -->
+              <div class="contact_info_card">
+                <div class="info_icon">
+                  <i class="fa fa-phone"></i>
+                </div>
+                <div class="info_content">
+                  <h4>Call Us</h4>
+                  <p>(904) 982-4160</p>
+                  <p class="text-muted">Available 24/7 for your convenience</p>
+                </div>
               </div>
-              <div>
-                <input type="text" placeholder="Phone Number" />
+
+              <!-- Email Card -->
+              <div class="contact_info_card">
+                <div class="info_icon">
+                  <i class="fa fa-envelope"></i>
+                </div>
+                <div class="info_content">
+                  <h4>Email Us</h4>
+                  <p>Palmvalleytransportation@gmail.com</p>
+                  <p class="text-muted">We'll respond within 24 hours</p>
+                </div>
               </div>
-              <div>
-                <input type="email" placeholder="Email" />
+
+              <!-- Address Card -->
+              <div class="contact_info_card">
+                <div class="info_icon">
+                  <i class="fa fa-map-marker"></i>
+                </div>
+                <div class="info_content">
+                  <h4>Our Location</h4>
+                  <p>Jacksonville, Florida</p>
+                  <p class="text-muted">Serving the entire Jacksonville area</p>
+                </div>
               </div>
-              <div>
-                <input type="text" class="message-box" placeholder="Message" />
+            </div>
+
+            <!-- Social Media Links -->
+            <div class="contact_social">
+              <h4>Connect With Us</h4>
+              <div class="social_links">
+                <a href="#" class="social_link"
+                  ><i class="fa fa-facebook"></i
+                ></a>
+                <a href="#" class="social_link"
+                  ><i class="fa fa-instagram"></i
+                ></a>
               </div>
-              <div class="d-flex ">
-                <button>
-                  SEND
-                </button>
-              </div>
-            </form>
+            </div>
           </div>
-          <div class="col-md-6">
-            <div class="map_container">
-              <div class="map">
-                <div id="googleMap" style="width:100%;height:100%;"></div>
-              </div>
+
+          <div class="col-lg-7 col-md-6">
+            <!-- Contact Form -->
+            <div class="contact_form_container">
+              <form id="contactForm">
+                <div class="form_row">
+                  <div class="form_group">
+                    <label for="name">Your Name</label>
+                    <div class="input_wrapper">
+                      <i class="fa fa-user input_icon"></i>
+                      <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="Enter your name"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div class="form_group">
+                    <label for="email">Email Address</label>
+                    <div class="input_wrapper">
+                      <i class="fa fa-envelope input_icon"></i>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Enter your email"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form_group">
+                  <label for="phone">Phone Number</label>
+                  <div class="input_wrapper">
+                    <i class="fa fa-phone input_icon"></i>
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      placeholder="Enter your phone number"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div class="form_group">
+                  <label for="subject">Subject</label>
+                  <div class="input_wrapper">
+                    <i class="fa fa-tag input_icon"></i>
+                    <select id="subject" name="subject" required>
+                      <option value="" disabled selected>
+                        Select a subject
+                      </option>
+                      <option value="booking">Booking Inquiry</option>
+                      <option value="quote">Request a Quote</option>
+                      <option value="feedback">Feedback</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form_group">
+                  <label for="message">Your Message</label>
+                  <div class="input_wrapper textarea_wrapper">
+                    <i class="fa fa-comment input_icon"></i>
+                    <textarea
+                      id="message"
+                      name="message"
+                      rows="5"
+                      placeholder="Write your message here..."
+                      required
+                    ></textarea>
+                  </div>
+                </div>
+
+                <div class="form_group">
+                  <button type="submit" class="submit_btn">
+                    <i class="fa fa-paper-plane"></i>
+                    Send Message
+                  </button>
+                </div>
+
+                <div id="form_response" class="form_response"></div>
+              </form>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- end contact section -->
-
-
-  <!-- info section -->
-  <section class="info_section ">
-    <div class="container">
-      <h4>
-        Get In Touch
-      </h4>
-      <div class="row">
-        <div class="col-lg-10 mx-auto">
-          <div class="info_items">
-            <div class="row">
-              <div class="col-md-4">
-                <a href="">
-                  <div class="item ">
-                    <div class="img-box ">
-                      <i class="fa fa-map-marker" aria-hidden="true"></i>
+    <!-- info section -->
+    <section class="info_section">
+      <div class="container">
+        <h4>Get In Touch</h4>
+        <div class="row">
+          <div class="col-lg-10 mx-auto">
+            <div class="info_items">
+              <div class="row">
+                <div class="col-md-4">
+                  <a href="">
+                    <div class="item">
+                      <div class="img-box">
+                        <i class="fa fa-map-marker" aria-hidden="true"></i>
+                      </div>
+                      <p>Request Ride</p>
                     </div>
-                    <p>
-                      Request Ride
-                    </p>
-                  </div>
-                </a>
-              </div>
-              <div class="col-md-4">
-                <a href="">
-                  <div class="item ">
-                    <div class="img-box ">
-                      <i class="fa fa-phone" aria-hidden="true"></i>
+                  </a>
+                </div>
+                <div class="col-md-4">
+                  <a href="">
+                    <div class="item">
+                      <div class="img-box">
+                        <i class="fa fa-phone" aria-hidden="true"></i>
+                      </div>
+                      <p>(904)982-4160</p>
                     </div>
-                    <p>
-                    (904)982-4160
-                    </p>
-                  </div>
-                </a>
-              </div>
-              <div class="col-md-4">
-                <a href="">
-                  <div class="item ">
-                    <div class="img-box">
-                      <i class="fa fa-envelope" aria-hidden="true"></i>
+                  </a>
+                </div>
+                <div class="col-md-4">
+                  <a href="">
+                    <div class="item">
+                      <div class="img-box">
+                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                      </div>
+                      <p>Palmvalleytransportation@gmail.com</p>
                     </div>
-                    <p>
-                    Palmvalleytransportation@gmail.com
-                    </p>
-                  </div>
-                </a>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="social-box">
-      <h4>
-        Follow Us
-      </h4>
-      <div class="box">
-        <a href="">
-          <i class="fa fa-facebook" aria-hidden="true"></i>
-        </a>
-        <a href="">
-          <i class="fa fa-twitter" aria-hidden="true"></i>
-        </a>
-        <a href="">
-          <i class="fa fa-youtube" aria-hidden="true"></i>
-        </a>
-        <a href="">
-          <i class="fa fa-instagram" aria-hidden="true"></i>
-        </a>
+      <div class="social-box">
+        <h4>Follow Us</h4>
+        <div class="box">
+          <a href="">
+            <i class="fa fa-facebook" aria-hidden="true"></i>
+          </a>
+          <a href="">
+            <i class="fa fa-twitter" aria-hidden="true"></i>
+          </a>
+          <a href="">
+            <i class="fa fa-youtube" aria-hidden="true"></i>
+          </a>
+          <a href="">
+            <i class="fa fa-instagram" aria-hidden="true"></i>
+          </a>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+
+    <!-- footer section -->
+    <footer class="footer_section">
+      <div class="container">
+        <p>
+          &copy; <span id="displayDateYear"></span> All Rights Reserved By
+          <a href="https://html.design/">Free Html Templates</a>
+        </p>
+      </div>
+    </footer>
+
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script src="js/custom.js"></script>
+    <!-- Google Map -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDg72jcuTbOPMp5ElU5BEQN4UecokfSgsI&libraries=places&callback=initAutocomplete"></script>
+
+    <script>
+      // Set current year in footer
+      document.getElementById("displayDateYear").textContent = new Date().getFullYear();
 
 
+document.addEventListener('DOMContentLoaded', function() {
+  // Initialize testimonials slider
+  function initTestimonials() {
+    const container = document.querySelector(".testimonials_container");
+    const dots = document.querySelectorAll(".slider_dots .dot");
+    const prevBtn = document.querySelector(".arrow.prev");
+    const nextBtn = document.querySelector(".arrow.next");
+    const cards = document.querySelectorAll(".testimonial_card");
 
-  <!-- end info_section -->
+    if (!container || !cards.length) return;
 
-  <!-- footer section -->
-  <footer class="footer_section">
-    <div class="container">
-      <p>
-        &copy; <span id="displayDateYear"></span> All Rights Reserved By
-        <a href="https://html.design/">Free Html Templates</a>
-      </p>
-    </div>
-  </footer>
-  <!-- footer section -->
+    let currentIndex = 0;
+    const totalSlides = cards.length;
 
-  <script src="js/jquery-3.4.1.min.js"></script>
-  <script src="js/bootstrap.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
-  </script>
-  <script src="js/custom.js"></script>
-  <!-- Google Map -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDg72jcuTbOPMp5ElU5BEQN4UecokfSgsI&libraries=places&callback=initAutocomplete"></script>
-  <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDg72jcuTbOPMp5ElU5BEQN4UecokfSgsI&callback=myMap"></script> -->
-  <!-- End Google Map -->
-
-  <script>
-   // Function to update available time slots
-function updateAvailableTimeSlots() {
-    const dateInput = document.getElementById('journey-date');
-    const timeInput = document.getElementById('journey-time');
-    const resultDiv = document.getElementById('result');
-    
-    if (!dateInput.value) {
-        return;
-    }
-
-    // Clear existing options
-    timeInput.innerHTML = '<option value="">Select time</option>';
-    
-    // Get CSRF token
-    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-    
-    // Fetch available slots from server
-    fetch('get-available-slots/?date=' + dateInput.value, {
-        method: 'GET',
-        headers: {
-            'X-Requested-With': 'XMLHttpRequest',
-            'X-CSRFToken': csrftoken
-        }
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.error) {
-            // Show error in the result div
-            resultDiv.className = 'result_box error';
-            resultDiv.style.display = 'block';
-            resultDiv.textContent = data.error;
-            return;
-        }
-        
-        if (data.available_slots && data.available_slots.length > 0) {
-            data.available_slots.forEach(slot => {
-                const option = document.createElement('option');
-                option.value = slot;
-                option.textContent = slot;
-                timeInput.appendChild(option);
-            });
+    // Initialize slider
+    function initSlider() {
+      cards.forEach((card, index) => {
+        if (index === currentIndex) {
+          card.style.display = "block";
+          card.style.opacity = "1";
+          card.setAttribute("aria-hidden", "false");
         } else {
-            // No available slots
-            const option = document.createElement('option');
-            option.value = "";
-            option.textContent = "No available slots for this date";
-            timeInput.appendChild(option);
-        }
-    })
-    .catch(error => {
-        console.error('Error fetching time slots:', error);
-        // Show error in the result div
-        resultDiv.className = 'result_box error';
-        resultDiv.style.display = 'block';
-        resultDiv.textContent = 'Error loading available time slots. Please try again.';
-    });
-}
-    document.addEventListener('DOMContentLoaded', function() {
-    const dateInput = document.getElementById('journey-date');
-    dateInput.addEventListener('change', updateAvailableTimeSlots);
-    
-    // Convert time input to select
-    const timeInput = document.getElementById('journey-time');
-    const timeSelect = document.createElement('select');
-    timeSelect.id = 'journey-time';
-    timeSelect.className = timeInput.className;
-    timeSelect.required = true;
-    timeInput.parentNode.replaceChild(timeSelect, timeInput);
-});
-    let autocompleteFrom, autocompleteTo;
-let map;
-
-function initAutocomplete() {
-    // Initialize autocomplete for 'from' input
-    autocompleteFrom = new google.maps.places.Autocomplete(
-        document.getElementById('from'),
-        { types: ['geocode'] }
-    );
-
-    // Initialize autocomplete for 'to' input
-    autocompleteTo = new google.maps.places.Autocomplete(
-        document.getElementById('to'),
-        { types: ['geocode'] }
-    );
-
-    // Add place_changed listeners
-    autocompleteFrom.addListener('place_changed', onPlaceChanged);
-    autocompleteTo.addListener('place_changed', onPlaceChanged);
-}
-
-function onPlaceChanged() {
-    // Clear previous results when a new place is selected
-    document.getElementById('result').style.display = 'none';
-    document.getElementById('calculate-btn-container').style.display = 'block';
-    document.getElementById('book-btn-container').style.display = 'none';
-}
-
-function calculateDistance() {
-    const fromInput = document.getElementById('from');
-    const toInput = document.getElementById('to');
-    const date = document.getElementById('journey-date').value;
-    const time = document.getElementById('journey-time').value;
-    const resultDiv = document.getElementById('result');
-    const loader = document.getElementById('loader');
-    const calculateBtnContainer = document.getElementById('calculate-btn-container');
-    const bookBtnContainer = document.getElementById('book-btn-container');
-
-    // Form validation
-    if (!fromInput.value || !toInput.value || !date || !time) {
-        resultDiv.className = 'result_box error';
-        resultDiv.style.display = 'block';
-        resultDiv.textContent = 'Please fill in all fields';
-        return;
-    }
-
-    // Show loader, hide result
-    loader.style.display = 'block';
-    resultDiv.style.display = 'none';
-    calculateBtnContainer.style.display = 'none';
-
-    const service = new google.maps.DistanceMatrixService();
-    
-    service.getDistanceMatrix(
-        {
-            origins: [fromInput.value],
-            destinations: [toInput.value],
-            travelMode: google.maps.TravelMode.DRIVING,
-            unitSystem: google.maps.UnitSystem.METRIC,
-        },
-        (response, status) => {
-            // Hide loader
-            loader.style.display = 'none';
-            
-            if (status === 'OK') {
-                try {
-                    const result = response.rows[0].elements[0];
-                    if (result.status === 'OK') {
-                        // Store duration for booking
-                        window.rideDuration = result.duration.text;
-                        
-                        resultDiv.className = 'result_box success';
-                        resultDiv.style.display = 'block';
-                        resultDiv.innerHTML = `
-                            <strong>From:</strong> ${response.originAddresses[0]}<br>
-                            <strong>To:</strong> ${response.destinationAddresses[0]}<br>
-                            <strong>Distance:</strong> ${result.distance.text}<br>
-                            <strong>Estimated time:</strong> ${result.duration.text}<br>
-                            <strong>Date:</strong> ${date}<br>
-                            <strong>Time:</strong> ${time}
-                        `;
-
-                        calculateBtnContainer.style.display = 'none';
-                        bookBtnContainer.style.display = 'block';
-                    } else {
-                        resultDiv.className = 'result_box error';
-                        resultDiv.style.display = 'block';
-                        resultDiv.textContent = 'Unable to find route';
-                        calculateBtnContainer.style.display = 'block';
-                    }
-                } catch (error) {
-                    resultDiv.className = 'result_box error';
-                    resultDiv.style.display = 'block';
-                    resultDiv.textContent = 'Error processing response';
-                    calculateBtnContainer.style.display = 'block';
-                }
-            } else {
-                resultDiv.className = 'result_box error';
-                resultDiv.style.display = 'block';
-                resultDiv.textContent = 'Error calculating distance';
-                calculateBtnContainer.style.display = 'block';
-            }
-        }
-    );
-}
-// Reset form and buttons when inputs change
-document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('#distance-form input').forEach(input => {
-        input.addEventListener('change', function() {
-            document.getElementById('result').style.display = 'none';
-            document.getElementById('calculate-btn-container').style.display = 'block';
-            document.getElementById('book-btn-container').style.display = 'none';
-        });
-    });
-});
-    
-// function bookRide() {
-//     const formData = new FormData();
-//     formData.append('from', document.getElementById('from').value);
-//     formData.append('to', document.getElementById('to').value);
-//     formData.append('date', document.getElementById('journey-date').value);
-//     formData.append('time', document.getElementById('journey-time').value);
-//     formData.append('duration', window.rideDuration);
-//     formData.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value);
-
-//     fetch('book-ride', {
-//         method: 'POST',
-//         body: formData,
-//         headers: {
-//             'X-Requested-With': 'XMLHttpRequest'
-//         }
-//     })
-//     .then(response => response.json())
-//     .then(data => {
-//         const resultDiv = document.getElementById('result');
-//         if (data.status === 'success') {
-//             resultDiv.className = 'result_box success';
-//             resultDiv.textContent = 'Ride booked successfully! Redirecting...';
-//             document.getElementById('book-btn-container').style.display = 'none';
-//             setTimeout(() => {
-//                 window.location.href = data.redirect_url;
-//             }, 1500);
-//         } else if (data.status === 'redirect') {
-//             window.location.href = data.url;
-//         } else {
-//             throw new Error(data.message);
-//         }
-//     })
-//     .catch(error => {
-//         const resultDiv = document.getElementById('result');
-//         resultDiv.className = 'result_box error';
-//         resultDiv.textContent = 'Error booking ride: ' + error.message;
-//     });
-// }
-
-// Add event listener for date change
-document.addEventListener('DOMContentLoaded', function() {
-    const dateInput = document.getElementById('journey-date');
-    dateInput.addEventListener('change', updateAvailableTimeSlots);
-    
-    // Convert time input to select
-    const timeInput = document.getElementById('journey-time');
-    const timeSelect = document.createElement('select');
-    timeSelect.id = 'journey-time';
-    timeSelect.className = timeInput.className;
-    timeSelect.required = true;
-    timeInput.parentNode.replaceChild(timeSelect, timeInput);
-});
-
-
-function checkOverlap() {
-    const date = document.getElementById('journey-date').value;
-    const time = document.getElementById('journey-time').value;
-    const duration = window.rideDuration;
-    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-
-    return fetch(`get-available-slots/?date=${date}&selected_time=${time}&duration=${duration}`, {
-        method: 'GET',
-        headers: {
-            'X-Requested-With': 'XMLHttpRequest',
-            'X-CSRFToken': csrftoken
-        }
-    })
-    .then(response => response.json());
-}
-
-function bookRide() {
-    // First check for overlaps
-    checkOverlap().then(data => {
-        if (data.overlap) {
-            const resultDiv = document.getElementById('result');
-            resultDiv.className = 'result_box error';
-            resultDiv.innerHTML = `
-                Driver is busy from ${data.busy_start} to ${data.busy_end}.<br>
-                The ride you are trying to book is from ${data.requested_start} to ${data.requested_end}.<br>
-                Please pick another time.
-            `;
-            return;
-        }
-
-        // If no overlap, proceed with booking
-        const formData = new FormData();
-        formData.append('from', document.getElementById('from').value);
-        formData.append('to', document.getElementById('to').value);
-        formData.append('date', document.getElementById('journey-date').value);
-        formData.append('time', document.getElementById('journey-time').value);
-        formData.append('duration', window.rideDuration);
-        formData.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value);
-
-        fetch('book-ride', {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            const resultDiv = document.getElementById('result');
-            if (data.status === 'success') {
-                resultDiv.className = 'result_box success';
-                resultDiv.textContent = 'Ride booked successfully! Redirecting...';
-                document.getElementById('book-btn-container').style.display = 'none';
-                setTimeout(() => {
-                    window.location.href = data.redirect_url;
-                }, 1500);
-            } else if (data.status === 'redirect') {
-                window.location.href = data.url;
-            } else {
-                throw new Error(data.message);
-            }
-        })
-        .catch(error => {
-            const resultDiv = document.getElementById('result');
-            resultDiv.className = 'result_box error';
-            resultDiv.textContent = 'Error booking ride: ' + error.message;
-        });
-    })
-    .catch(error => {
-        const resultDiv = document.getElementById('result');
-        resultDiv.className = 'result_box error';
-        resultDiv.textContent = 'Error checking availability: ' + error.message;
-    });
-}
-  </script>
-
-  <!-- Load jQuery -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-  <!-- Load OwlCarousel -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-
-  <!-- Initialize OwlCarousel -->
-  <script>
-    $(document).ready(function(){
-      $('.owl-carousel').owlCarousel({
-        loop: true,
-        margin: 10,
-        nav: true,
-        dots: true,
-        responsive: {
-          0: { items: 1 },
-          600: { items: 1 },
-          1000: { items: 2 }
+          card.style.display = "none";
+          card.style.opacity = "0";
+          card.setAttribute("aria-hidden", "true");
         }
       });
-    });
-  </script>
-</body>
+      updateActiveDot();
+    }
 
+    // Update slider
+    function updateSlider() {
+      cards.forEach((card) => {
+        card.style.display = "none";
+        card.style.opacity = "0";
+        card.setAttribute("aria-hidden", "true");
+      });
+
+      cards[currentIndex].style.display = "block";
+      setTimeout(() => {
+        cards[currentIndex].style.opacity = "1";
+      }, 50);
+      cards[currentIndex].setAttribute("aria-hidden", "false");
+
+      updateActiveDot();
+    }
+
+    // Update active dot
+    function updateActiveDot() {
+      dots.forEach((dot, index) => {
+        if (index === currentIndex) {
+          dot.classList.add("active");
+        } else {
+          dot.classList.remove("active");
+        }
+      });
+    }
+
+    // Event listeners for dots
+    dots.forEach((dot, index) => {
+      dot.addEventListener("click", () => {
+        currentIndex = index;
+        updateSlider();
+      });
+    });
+
+    // Event listeners for arrows
+    if (prevBtn) {
+      prevBtn.addEventListener("click", () => {
+        currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+        updateSlider();
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener("click", () => {
+        currentIndex = (currentIndex + 1) % totalSlides;
+        updateSlider();
+      });
+    }
+
+    // Auto-rotate testimonials
+    let slideInterval = setInterval(() => {
+      currentIndex = (currentIndex + 1) % totalSlides;
+      updateSlider();
+    }, 7000);
+
+    // Pause auto-rotation on hover
+    const sliderElement = document.querySelector(".testimonials_slider");
+    if (sliderElement) {
+      sliderElement.addEventListener("mouseenter", () => {
+        clearInterval(slideInterval);
+      });
+
+      sliderElement.addEventListener("mouseleave", () => {
+        slideInterval = setInterval(() => {
+          currentIndex = (currentIndex + 1) % totalSlides;
+          updateSlider();
+        }, 7000);
+      });
+    }
+
+    // Start the slider
+    initSlider();
+  }
+
+  // Call the function to initialize testimonials
+  initTestimonials();
+});
+        // Contact form handling
+        // functio
+    </script>
+  </body>
 </html>
