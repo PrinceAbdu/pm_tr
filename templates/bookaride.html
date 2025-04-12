@@ -203,13 +203,22 @@
       }
 
       .distance-info {
-        margin-top: 16px;
-        padding: 12px;
-        background-color: #f0f0f0;
-        border-radius: 4px;
-        font-size: 14px;
-        color: #333;
-      }
+  margin-top: 20px;
+  padding: 16px;
+  background-color: #f0f6ff;
+  border-left: 4px solid #2196f3;
+  border-radius: 6px;
+  font-size: 16px;
+  color: #0d47a1;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.distance-info::before {
+  content: "📍";
+  font-size: 20px;
+}
       /* Hide default date and time picker icons */
       input[type="date"]::-webkit-calendar-picker-indicator,
       input[type="time"]::-webkit-calendar-picker-indicator {
@@ -764,7 +773,7 @@
           // Create map
           map = new google.maps.Map(document.getElementById("map"), {
             zoom: 12,
-            center: { lat: 20.5937, lng: 78.9629 },
+            center: { lat: 30.3322, lng: -81.6557 }, // Jacksonville, FL,
             mapTypeControl: true,
             streetViewControl: true,
             zoomControl: true,
@@ -974,15 +983,14 @@
                 }
 
                 // Convert to kilometers and hours
-                const distanceInKm = (totalDistance / 1000).toFixed(1);
-                const durationInHours = (totalDuration / 3600).toFixed(1);
+                // Convert to miles and minutes
+const distanceInMiles = (totalDistance / 1609.34).toFixed(1); // 1 mile = 1609.34 meters
+const durationInMinutes = Math.round(totalDuration / 60);     // 1 minute = 60 seconds
 
-                document.getElementById("distance-info").style.display =
-                  "block";
-                document.getElementById(
-                  "distance-value"
-                ).textContent = `${distanceInKm} km (approximately ${durationInHours} hours by car)`;
-              }
+document.getElementById("distance-info").style.display = "block";
+document.getElementById("distance-value").textContent =
+  `${distanceInMiles} miles (approximately ${durationInMinutes} minutes)`;
+}
             }
           );
         }
@@ -1085,7 +1093,7 @@
               document.getElementById("distance-info").style.display = "block";
               document.getElementById(
                 "distance-value"
-              ).textContent = `${distance} (approximately ${duration} by car)`;
+              ).textContent = `${distance} (approximately ${duration})`;
             }
           }
         );
@@ -1236,13 +1244,12 @@
         const calculateNextLeg = (startIndex) => {
           if (startIndex >= waypoints.length - 1) {
             // All segments calculated, update the UI
-            const distanceInKm = (totalDistance / 1000).toFixed(1);
-            const durationInHours = (totalDuration / 3600).toFixed(1);
+            const distanceInMiles = (totalDistance / 1609.34).toFixed(1); // meters to miles
+const durationInMinutes = Math.round(totalDuration / 60);     // seconds to minutes
 
-            document.getElementById("distance-info").style.display = "block";
-            document.getElementById(
-              "distance-value"
-            ).textContent = `${distanceInKm} km (approximately ${durationInHours} hours by car)`;
+document.getElementById("distance-info").style.display = "block";
+document.getElementById("distance-value").textContent =
+  `${distanceInMiles} miles (approximately ${durationInMinutes} minutes)`;
           }
 
           service.getDistanceMatrix(
@@ -1264,16 +1271,12 @@
                   // Calculate next segment
                   calculateNextLeg(startIndex + 1);
                 } else {
-                  // Final segment completed
-                  const distanceInKm = (totalDistance / 1000).toFixed(1);
-                  const durationInHours = (totalDuration / 3600).toFixed(1);
+                  const distanceInMiles = (totalDistance / 1609.34).toFixed(1); // Convert meters to miles
+const durationInMinutes = Math.round(totalDuration / 60);     // Convert seconds to minutes
 
-                  document.getElementById("distance-info").style.display =
-                    "block";
-                  document.getElementById(
-                    "distance-value"
-                  ).textContent = `${distanceInKm} km (approximately ${durationInHours} hours by car)`;
-                }
+document.getElementById("distance-info").style.display = "block";
+document.getElementById("distance-value").textContent =
+  `${distanceInMiles} miles (approximately ${durationInMinutes} minutes)`;}
               }
             }
           );
@@ -1394,8 +1397,8 @@
             document.getElementById("distance-value").textContent;
 
           if (distanceInfo) {
-            const distanceMatch = distanceInfo.match(/(\d+\.?\d*)\s*km/);
-            const durationMatch = distanceInfo.match(/(\d+\.?\d*)\s*hours/);
+            const distanceMatch = distanceInfo.match(/(\d+\.?\d*)\s*miles/);
+  const durationMatch = distanceInfo.match(/(\d+\.?\d*)\s*minutes/);
 
             if (distanceMatch) distance = parseFloat(distanceMatch[1]);
             if (durationMatch) duration = parseFloat(durationMatch[1]) * 60; // Convert to minutes
@@ -1416,6 +1419,7 @@
             distance: distance,
             duration: duration,
           });
+          
         } else {
           // Hourly mode
           const hourlyPickupInput = document.getElementById(
@@ -1468,7 +1472,7 @@
             );
           });
       }
-
+      
       // Helper function to get CSRF token from cookies
       function getCSRFToken() {
         const name = "csrftoken";
