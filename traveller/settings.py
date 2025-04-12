@@ -87,7 +87,8 @@ WSGI_APPLICATION = 'traveller.wsgi.application'
 
 
 # Database
-DATABASE_URL="postgresql://neondb_owner:npg_RowImbk5Vu1v@ep-crimson-block-a5rfstfr-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require"
+import os
+DATABASE_URL=os.environ.get('DATA_B_URL')
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
