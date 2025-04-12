@@ -23,7 +23,7 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('DEP_KEY')
+SECRET_KEY = 'django-insecure-mkn(@h&%q7hcm9ift2^&$yk-8_y@(*pq_eltteco%h*!^do^jz'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -88,7 +88,7 @@ WSGI_APPLICATION = 'traveller.wsgi.application'
 
 # Database
 import os
-DATABASE_URL=os.environ.get('DATA_B_URL')
+DATABASE_URL="postgresql://neondb_owner:npg_RowImbk5Vu1v@ep-crimson-block-a5rfstfr-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require"
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
