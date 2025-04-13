@@ -21,16 +21,20 @@
         max-width: 1000px;
         margin: 0 auto;
         background: white;
-        padding: 32px;
+        padding: 20px;
         border-radius: 8px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        width: 100%;
       }
 
       .header {
         display: flex;
+        flex-direction: row;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 32px;
+        flex-wrap: wrap;
+        gap: 16px;
       }
 
       .title {
@@ -41,6 +45,7 @@
       .button-group {
         display: flex;
         gap: 8px;
+        flex-wrap: wrap;
       }
 
       .btn {
@@ -115,6 +120,7 @@
         display: flex;
         gap: 8px;
         margin-top: 4px;
+        flex-wrap: wrap;
       }
 
       .search-container {
@@ -197,28 +203,33 @@
         display: flex;
         justify-content: space-between;
         margin-top: 32px;
+        flex-wrap: wrap;
+        gap: 16px;
       }
+
       .pac-container {
         z-index: 1051 !important;
       }
 
       .distance-info {
-  margin-top: 20px;
-  padding: 16px;
-  background-color: #f0f6ff;
-  border-left: 4px solid #2196f3;
-  border-radius: 6px;
-  font-size: 16px;
-  color: #0d47a1;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.distance-info::before {
-  content: "📍";
-  font-size: 20px;
-}
+        margin-top: 20px;
+        padding: 16px;
+        background-color: #f0f6ff;
+        border-left: 4px solid #2196f3;
+        border-radius: 6px;
+        font-size: 16px;
+        color: #0d47a1;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .distance-info::before {
+        content: "📍";
+        font-size: 20px;
+      }
+
       /* Hide default date and time picker icons */
       input[type="date"]::-webkit-calendar-picker-indicator,
       input[type="time"]::-webkit-calendar-picker-indicator {
@@ -230,9 +241,10 @@
         left: 0;
         cursor: pointer;
       }
+
       .container-wrapper {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr;
         gap: 24px;
         max-width: 2000px;
         margin: 0 auto;
@@ -240,9 +252,7 @@
       }
 
       #map-container {
-        position: sticky;
-        top: 20px;
-        height: calc(100vh - 40px);
+        height: 400px;
         background: #fff;
         border-radius: 8px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -282,6 +292,69 @@
         color: #666;
         margin-bottom: 4px;
         display: block;
+      }
+
+      /* Media Queries for Responsive Design */
+      @media (min-width: 992px) {
+        .container-wrapper {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        #map-container {
+          position: sticky;
+          top: 20px;
+          height: calc(100vh - 40px);
+        }
+
+        .container {
+          padding: 32px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .date-time-container {
+          grid-template-columns: 1fr;
+        }
+
+        .counter-container {
+          grid-template-columns: 1fr;
+        }
+
+        .header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .button-group {
+          width: 100%;
+        }
+
+        .btn {
+          flex: 1;
+          justify-content: center;
+        }
+
+        .footer {
+          flex-direction: column;
+        }
+
+        .footer .btn {
+          width: 100%;
+        }
+      }
+
+      @media (max-width: 480px) {
+        body {
+          padding: 10px;
+        }
+
+        .container {
+          padding: 16px;
+        }
+
+        .title {
+          font-size: 20px;
+        }
       }
     </style>
   </head>
@@ -590,7 +663,6 @@
         <div id="map"></div>
       </div>
     </div>
-
     <script
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDg72jcuTbOPMp5ElU5BEQN4UecokfSgsI&libraries=places&callback=initAutocomplete"
       async
@@ -984,13 +1056,15 @@
 
                 // Convert to kilometers and hours
                 // Convert to miles and minutes
-const distanceInMiles = (totalDistance / 1609.34).toFixed(1); // 1 mile = 1609.34 meters
-const durationInMinutes = Math.round(totalDuration / 60);     // 1 minute = 60 seconds
+                const distanceInMiles = (totalDistance / 1609.34).toFixed(1); // 1 mile = 1609.34 meters
+                const durationInMinutes = Math.round(totalDuration / 60); // 1 minute = 60 seconds
 
-document.getElementById("distance-info").style.display = "block";
-document.getElementById("distance-value").textContent =
-  `${distanceInMiles} miles (approximately ${durationInMinutes} minutes)`;
-}
+                document.getElementById("distance-info").style.display =
+                  "block";
+                document.getElementById(
+                  "distance-value"
+                ).textContent = `${distanceInMiles} miles (approximately ${durationInMinutes} minutes)`;
+              }
             }
           );
         }
@@ -1245,11 +1319,12 @@ document.getElementById("distance-value").textContent =
           if (startIndex >= waypoints.length - 1) {
             // All segments calculated, update the UI
             const distanceInMiles = (totalDistance / 1609.34).toFixed(1); // meters to miles
-const durationInMinutes = Math.round(totalDuration / 60);     // seconds to minutes
+            const durationInMinutes = Math.round(totalDuration / 60); // seconds to minutes
 
-document.getElementById("distance-info").style.display = "block";
-document.getElementById("distance-value").textContent =
-  `${distanceInMiles} miles (approximately ${durationInMinutes} minutes)`;
+            document.getElementById("distance-info").style.display = "block";
+            document.getElementById(
+              "distance-value"
+            ).textContent = `${distanceInMiles} miles (approximately ${durationInMinutes} minutes)`;
           }
 
           service.getDistanceMatrix(
@@ -1272,11 +1347,14 @@ document.getElementById("distance-value").textContent =
                   calculateNextLeg(startIndex + 1);
                 } else {
                   const distanceInMiles = (totalDistance / 1609.34).toFixed(1); // Convert meters to miles
-const durationInMinutes = Math.round(totalDuration / 60);     // Convert seconds to minutes
+                  const durationInMinutes = Math.round(totalDuration / 60); // Convert seconds to minutes
 
-document.getElementById("distance-info").style.display = "block";
-document.getElementById("distance-value").textContent =
-  `${distanceInMiles} miles (approximately ${durationInMinutes} minutes)`;}
+                  document.getElementById("distance-info").style.display =
+                    "block";
+                  document.getElementById(
+                    "distance-value"
+                  ).textContent = `${distanceInMiles} miles (approximately ${durationInMinutes} minutes)`;
+                }
               }
             }
           );
@@ -1398,7 +1476,7 @@ document.getElementById("distance-value").textContent =
 
           if (distanceInfo) {
             const distanceMatch = distanceInfo.match(/(\d+\.?\d*)\s*miles/);
-  const durationMatch = distanceInfo.match(/(\d+\.?\d*)\s*minutes/);
+            const durationMatch = distanceInfo.match(/(\d+\.?\d*)\s*minutes/);
 
             if (distanceMatch) distance = parseFloat(distanceMatch[1]);
             if (durationMatch) duration = parseFloat(durationMatch[1]) * 60; // Convert to minutes
@@ -1419,7 +1497,6 @@ document.getElementById("distance-value").textContent =
             distance: distance,
             duration: duration,
           });
-          
         } else {
           // Hourly mode
           const hourlyPickupInput = document.getElementById(
@@ -1472,7 +1549,7 @@ document.getElementById("distance-value").textContent =
             );
           });
       }
-      
+
       // Helper function to get CSRF token from cookies
       function getCSRFToken() {
         const name = "csrftoken";
