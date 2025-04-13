@@ -1832,6 +1832,52 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDg72jcuTbOPMp5ElU5BEQN4UecokfSgsI&libraries=places&callback=initAutocomplete"></script>
 
     <script>
+      // Contact form handling
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  const formData = new FormData(this);
+  const formResponse = document.getElementById('form_response');
+  
+  formResponse.innerHTML = '<p class="text-info">Sending your message...</p>';
+  
+  fetch('{% url "send_contact_email" %}', {
+    method: 'POST',
+    body: formData,
+    headers: {
+      'X-CSRFToken': getCookie('csrftoken')
+    }
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      formResponse.innerHTML = '<p class="text-success">Message sent successfully! We\'ll get back to you soon.</p>';
+      document.getElementById('contactForm').reset();
+    } else {
+      formResponse.innerHTML = '<p class="text-danger">Error sending message. Please try again or call us directly.</p>';
+    }
+  })
+  .catch(error => {
+    formResponse.innerHTML = '<p class="text-danger">An error occurred. Please try again later.</p>';
+    console.error('Error:', error);
+  });
+});
+
+// Function to get CSRF token from cookies
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.substring(0, name.length + 1) === (name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
       // Set current year in footer
       document.getElementById("displayDateYear").textContent = new Date().getFullYear();
 

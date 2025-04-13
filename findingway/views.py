@@ -152,7 +152,48 @@ def store_ride_in_session(request, ride_data):
         'distance': ride_data.get('distance'),
         'duration': duration_minutes  # Store the parsed duration
     }
+from django.http import JsonResponse
+from django.core.mail import send_mail
+from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
 
+def send_contact_email(request):
+    if request.method == 'POST':
+        name = request.POST.get('name', '')
+        email = request.POST.get('email', '')
+        phone = request.POST.get('phone', '')
+        subject_type = request.POST.get('subject', '')
+        message = request.POST.get('message', '')
+        
+        # Construct the email subject and message
+        email_subject = f"Contact Form: {subject_type}"
+        email_message = f"""
+        You have received a new message from the website contact form:
+        
+        Name: {name}
+        Email: {email}
+        Phone: {phone}
+        Subject: {subject_type}
+        
+        Message:
+        {message}
+        """
+        
+        # Send the email
+        try:
+            send_mail(
+                email_subject,
+                email_message,
+                settings.DEFAULT_FROM_EMAIL,  # From email
+                ['palmvalleytransportation@gmail.com'],  # To email
+                fail_silently=False,
+            )
+            return JsonResponse({'success': True})
+        except Exception as e:
+            print(str(e))  # Log the error
+            return JsonResponse({'success': False, 'error': str(e)})
+    
+    return JsonResponse({'success': False, 'error': 'Invalid request method'})
 # @login_required
 # def create_ride(request):
 #     """Handle ride creation with duration"""

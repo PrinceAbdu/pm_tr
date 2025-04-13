@@ -22,4 +22,5 @@ urlpatterns = [
     path('book_a_ride/', views.book_a_ride, name='book_a_ride'),
     path('bookridepage/', views.bookridepage, name='bookridepage'),
     # path('admin/login', views.signin_admin, name='book-ride')
+    path('send-contact-email/', views.send_contact_email, name='send_contact_email'),
 ]
