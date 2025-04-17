@@ -1117,6 +1117,22 @@
     max-width: 100%;
     width: 100%;
   }
+  /* Fix for testimonials display */
+.testimonial_card {
+  display: none; /* Hide all cards by default */
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.testimonial_card[data-index="1"] {
+  display: block; /* Only show the first one by default */
+  opacity: 1;
+}
+
+.testimonials_container {
+  position: relative;
+  width: 100%;
+}
 }
     </style>
     <!-- Google Fonts -->
