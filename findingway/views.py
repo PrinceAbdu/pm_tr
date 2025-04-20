@@ -378,8 +378,8 @@ def create_ride(request, data):
        base_price = 50
        distance_rate = 2
        price = base_price + (Decimal(str(data.get('distance', 0))) * distance_rate)
-       ride.price = price
-       print("??????????????????????hereeeeee??????????")
+       print("here otherrrr price")
+       ride.price=0.0
        ride.save()
 
        return JsonResponse({
@@ -393,6 +393,54 @@ def create_ride(request, data):
            'success': False, 
            'error': str(e)
        }, status=500)
+def send_ride_confirmation_email(ride):
+    """
+    Send a confirmation email with ride details to the user.
+    """
+    ride.price=0.0
+    email_subject = "Ride Booked"
+    print("here is the problem")
+    # Format ride details for email body
+    stops_info = ""
+    if ride.stops.exists():
+        stops_info = "\nStops:\n"
+        for stop in ride.stops.all().order_by('order'):
+            stops_info += f"  - {stop.location}\n"
+    
+    email_message = f"""
+A ride has been booked
+
+Ride Details:
+--------------
+Ride ID: {ride.id}
+Type: {ride.ride_type}
+Date/Time: {ride.time}
+Travelers: {ride.num_travelers} adults, {ride.num_kids} children
+Luggage: {ride.num_bags} bags
+
+
+From: {ride.starting_location}
+To: {ride.ending_location}{stops_info}
+confirm the ride and decide the price
+"""
+
+    from_email = "noreply@yourrideservice.com"
+    recipient_list = [ride.user.email]
+    print("done with email")
+    from django.core.mail import send_mail
+    try:
+            send_mail(
+                email_subject,
+                email_message,
+                settings.DEFAULT_FROM_EMAIL,  # From email
+                ['palmvalleytransportation@gmail.com'],  # To email
+                fail_silently=False,
+            )
+            return JsonResponse({'success': True})
+    except Exception as e:
+            print(str(e))  # Log the error
+            return JsonResponse({'success': False, 'error': str(e)})
+    
 @require_http_methods(["POST"])
 def book_a_ride(request):
     try:
@@ -452,24 +500,23 @@ def book_a_ride(request):
                 lng=stop_data.get('lng'),
                 flight_number=stop_data.get('flight_number', '')
             )
-        
+        print("after sabb kuch")
         # Calculate preliminary price based on distance and duration
         # You can modify this pricing logic according to your needs
         base_price = 50  # Base price in your currency
         distance_rate = 2  # Price per km
-        price = base_price + (Decimal(str(data.get('distance', 0))) * distance_rate)
+        # price = base_price + (Decimal(str(data.get('distance', 0))) * distance_rate)
         
-        # Update ride with calculated price
-        ride.price = price
-        print("???????????here ??????????")
+      
+        # print("???????????here ??????????")
         ride.save()
-        
+        send_ride_confirmation_email(ride)
         # Return success response
         return JsonResponse({
             'success': True,
             'ride_id': ride.id,
             'url': '/profile',
-            'price': float(price)  # Convert Decimal to float for JSON serialization
+            # 'price': float(price)  # Convert Decimal to float for JSON serialization
         })
         
     except KeyError as e:
@@ -511,6 +558,7 @@ def update_ride_status(request):
         
     ride_id = request.POST.get('ride_id')
     status = request.POST.get('status')
+    price = request.POST.get('price')
     print("8888888888888888888888888")
     print(status)
     print("8888888888888888888888888")
@@ -518,6 +566,8 @@ def update_ride_status(request):
         
     try:
         ride = Ride.objects.get(id=ride_id)
+        print("here other price")
+        ride.price=price
         ride.status = status
         ride.save()
         return JsonResponse({'success': True})
@@ -710,6 +760,7 @@ def update_ride_status(request):
         
     ride_id = request.POST.get('ride_id')
     status = request.POST.get('status')
+    price = request.POST.get('price')
     
     # if status not in ['COMPLETED', 'CANCELLED']:
     #     return JsonResponse({'error': 'Invalid status'}, status=400)
@@ -717,6 +768,8 @@ def update_ride_status(request):
     try:
         ride = Ride.objects.get(id=ride_id)
         ride.status = status
+        print("here price")
+        ride.price=price
         ride.save()
         return JsonResponse({
             'success': True,

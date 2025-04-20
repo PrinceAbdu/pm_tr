@@ -465,11 +465,36 @@
 
    <script>
 function updateRideStatus(rideId, status) {
-    if (!confirm(`Are you sure you want to mark this ride as ${status.toLowerCase()}?`)) {
-        return;
+    // Price handling for CONFIRMED status
+    let price = null;
+    if (status === 'CONFIRMED') {
+        price = prompt('Please enter the price for this ride:');
+        
+        // Validate price
+        if (price === null) {
+            // User clicked cancel on the prompt
+            return;
+        }
+        
+        price = price.trim();
+        if (price === '' || isNaN(price) || parseFloat(price) <= 0) {
+            alert('Please enter a valid price');
+            return;
+        }
+    } else {
+        // For other statuses, show the regular confirmation dialog
+        if (!confirm(`Are you sure you want to mark this ride as ${status.toLowerCase()}?`)) {
+            return;
+        }
     }
 
     const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    
+    // Build the request body
+    let body = `ride_id=${rideId}&status=${status}`;
+    if (price !== null) {
+        body += `&price=${encodeURIComponent(price)}`;
+    }
     
     fetch('/update-ride-status/', {
         method: 'POST',
@@ -477,7 +502,7 @@ function updateRideStatus(rideId, status) {
             'X-CSRFToken': csrftoken,
             'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: `ride_id=${rideId}&status=${status}`
+        body: body
     })
     .then(response => response.json())
     .then(data => {
@@ -517,10 +542,11 @@ function updateRideStatus(rideId, status) {
         console.error('Error:', error);
         alert('Error updating ride status');
     });
-}        // Auto-submit form when date changes
-        document.getElementById('date-select').addEventListener('change', function() {
-            window.location.href = `?date=${this.value}`;
-        });
-    </script>
+}
+
+// Auto-submit form when date changes
+document.getElementById('date-select').addEventListener('change', function() {
+    window.location.href = `?date=${this.value}`;
+});    </script>
 </body>
 </html>
