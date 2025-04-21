@@ -1541,6 +1541,7 @@
             distance: distance,
             duration: duration,
           });
+          console.log("Sending payload:", JSON.stringify(payload, null, 2));
         } else {
           // Hourly mode
           const hourlyPickupInput = document.getElementById(
@@ -1572,7 +1573,17 @@
           },
           body: JSON.stringify(payload),
         })
-          .then((response) => response.json())
+          .then((response) => {
+            if (!response.ok) {
+              return response.text().then((text) => {
+                console.error("Error response:", text);
+                throw new Error(
+                  `HTTP error: ${response.status}, Response: ${text}`
+                );
+              });
+            }
+            return response.json();
+          })
           .then((data) => {
             if (data.redirect) {
               document
