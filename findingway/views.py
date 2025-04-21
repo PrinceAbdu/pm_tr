@@ -442,6 +442,7 @@ confirm the ride and decide the price
             return JsonResponse({'success': False, 'error': str(e)})
     
 @require_http_methods(["POST"])
+@csrf_exempt
 def book_a_ride(request):
     try:
         # Parse the JSON data from request body
